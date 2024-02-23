@@ -95,15 +95,20 @@ export const getCurrentUser = async (req, res) => {
 
 export const updateUserRole = async (req, res) => {
     const { uid } = req.params;
-    if(!uid) return res.sendBadRequest("User id is undefined or null");
+
+    if (!uid) {
+        return res.sendBadRequest("User id is undefined or null");
+    }
 
     const role = await UserService.getUserRole(uid);
 
-    if(role && role.role && role.role === 'ADMIN_ROLE') return res.sendBadRequest("Admin role can't be changed");
+    if (role && role.role === 'ADMIN_ROLE') {
+        return res.sendBadRequest("Admin role can't be changed");
+    }
 
-    let newRole = 'PREMIUM_ROLE';
-    if(role && role.role && role.role === 'PREMIUM_ROLE') newRole = 'USER_ROLE';
+    const newRole = role && role.role === 'PREMIUM_ROLE' ? 'USER_ROLE' : 'PREMIUM_ROLE';
 
     const result = await UserService.updateUser(uid, { role: newRole });
+
     res.sendSuccess(result);
 }
