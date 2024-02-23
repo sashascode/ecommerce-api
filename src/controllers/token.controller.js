@@ -9,9 +9,11 @@ const mailModule = new Mail();
 
 export const sendPasswordLink = async (req, res) => {
     try {
-        if(!req.body.email) return res.status(400).json({ message: "Email is required"});
+        if(!req.body.email) return res.sendBadRequest("Email is required");
 
         const user = await UserService.getUserByEmail(req.body.email);
+
+        if(!user) return res.sendBadRequest("Email isn't associated with a registered user");
 
         if(user && user._id) {
             const token = generateToken(user, '1h');
