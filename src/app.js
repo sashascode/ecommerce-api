@@ -65,7 +65,7 @@ const cartRouter = new CartRouter();
 const mockRouter = new MockRouter();
 const tokenRouter = new TokenRouter();
 
-app.use('/views/', viewRouter.getRouter());
+app.use('/view/', viewRouter.getRouter());
 app.use('/api/products/', productRouter.getRouter());
 app.use('/api/carts/', cartRouter.getRouter());
 app.use('/api/mock/', mockRouter.getRouter());
@@ -73,7 +73,7 @@ app.use('/api/users/', userRouter.getRouter());
 app.use('/api/token/', tokenRouter.getRouter());
 
 app.get('/', (req, res) => {
-    res.redirect('/views/products');
+    res.redirect('/view/products');
 });
 
 app.get('/loggerTest', (req, res) => {

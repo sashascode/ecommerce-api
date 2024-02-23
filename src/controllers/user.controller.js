@@ -76,7 +76,7 @@ export const loginGithub = async (req, res) => {
         maxAge: 24 * 60 * 60 * 1000 // 1 day
     });
 
-    res.redirect("/views/products");
+    res.redirect("/view/products");
 }
 
 export const logoutUser = async (req, res) => {

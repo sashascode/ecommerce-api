@@ -17,7 +17,7 @@ const onSubmit = async () => {
         const data = await response.json();
 
         if (data && data.status && data.status == 'success') {
-            window.location.href = '/views/login';
+            window.location.href = '/view/login';
         } else {
             displayError(data.error);
         }

@@ -3,7 +3,7 @@ import { CartService, MessageService, ProductService } from '../repositories/ind
 export const getProducts = async (req, res) => {
     const { limit, page, sort, query } = req.query;
     
-    const data = await ProductService.getProducts(limit, page, sort, query, '/views/');
+    const data = await ProductService.getProducts(limit, page, sort, query, '/view/');
 
     return res.render('productList', { 
         products: data.payload, 

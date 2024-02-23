@@ -64,7 +64,7 @@
     const socket = io();
 
     const continueShopping = () => {
-        window.location.href = "/views/products/";
+        window.location.href = "/view/products/";
     }
     
     const placeOrder = async () => {
@@ -91,7 +91,7 @@
                     alert(data.message);
                 } else {
                     alert('Order placed successfully');
-                    window.location.href = "/views/products/";
+                    window.location.href = "/view/products/";
                 }
             })
             .catch(err => {

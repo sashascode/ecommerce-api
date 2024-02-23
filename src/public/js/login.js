@@ -23,7 +23,7 @@ const onSubmit = async () => {
         const data = await response.json();
         
         sessionStorage["user"] = JSON.stringify(data);
-        window.location.href = '/views/products';
+        window.location.href = '/view/products';
 
         return false;
     }

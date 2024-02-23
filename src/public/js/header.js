@@ -32,7 +32,7 @@ const logout = async () => {
     });
     const data = await response.json();
     if (data.message) {
-        window.location.href = '/views/login';
+        window.location.href = '/view/login';
     }
 
     sessionStorage.removeItem('user');
@@ -62,7 +62,7 @@ const initializeHeader = async () => {
         document.getElementById('loginBtn').classList.add('hidden');
 
         if(user.cart) {
-            document.getElementById('cartRoute').href = `/views/cart/${user.cart}`;
+            document.getElementById('cartRoute').href = `/view/cart/${user.cart}`;
         }
         
         document.querySelectorAll('.' + roleClass).forEach(element => {
@@ -102,7 +102,7 @@ const getPremium = async () => {
     if(response.ok) {
         const user = await getCurrentUser();
         if(user && !user.message) sessionStorage["user"] = JSON.stringify(user);
-        window.location.replace("/views/products");
+        window.location.replace("/view/products");
     }
 }
 

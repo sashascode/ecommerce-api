@@ -24,7 +24,7 @@ const onSubmit = async (userId, token) => {
             }
 
             if (data.status == 'success') {
-                window.location.replace('/views/login');
+                window.location.replace('/view/login');
             }
         })
     } else {
@@ -56,5 +56,5 @@ async function sendResetPwEmail() {
     });
 
     hideDialog();
-    window.location.replace('/views/login');
+    window.location.replace('/view/login');
 }

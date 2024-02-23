@@ -2,7 +2,7 @@ import { request, response } from 'express';
 
 export const authMiddleware = (req = request, res = response, next) => {
     if (!req.user) {
-        return res.status(401).redirect('/views/login');
+        return res.status(401).redirect('/view/login');
     }
 
     next();
@@ -10,7 +10,7 @@ export const authMiddleware = (req = request, res = response, next) => {
 
 export const adminMiddleware = (req = request, res = response, next) => {
     if (!req.user || req.user._doc.role !== 'ADMIN_ROLE') {
-        return res.status(403).redirect('/views/products');
+        return res.status(403).redirect('/view/products');
     }
 
     next();
