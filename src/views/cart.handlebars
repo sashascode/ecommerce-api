@@ -76,7 +76,7 @@
         }
 
         if (user && !user.message) {
-           await fetch(`/api/carts/${user.cart}/purchase`, {
+           await fetch(`/api/cart/${user.cart}/purchase`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

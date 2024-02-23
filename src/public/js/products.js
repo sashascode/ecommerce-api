@@ -18,7 +18,7 @@ const addProduct = async (e) => {
 
     const product = { title, code, price, stock, description, thumbnail, category };
 
-    const response = await fetch('/api/products', {
+    const response = await fetch('/api/product', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -48,7 +48,7 @@ const cleanForm = () => {
 }
 
 const deleteProduct = async (pid) => {
-    const response = await fetch('/api/products/' + pid, {
+    const response = await fetch('/api/product/' + pid, {
         method: 'DELETE',
         headers: {
             'Content-Type': 'application/json',

@@ -97,7 +97,7 @@
             cid: cid
         }
 
-        const response = fetch('/api/carts/' + cid + "/products/" + pid, {
+        const response = fetch('/api/cart/' + cid + "/products/" + pid, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

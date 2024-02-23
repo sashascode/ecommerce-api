@@ -66,10 +66,10 @@ const mockRouter = new MockRouter();
 const tokenRouter = new TokenRouter();
 
 app.use('/view/', viewRouter.getRouter());
-app.use('/api/products/', productRouter.getRouter());
-app.use('/api/carts/', cartRouter.getRouter());
+app.use('/api/product/', productRouter.getRouter());
+app.use('/api/cart/', cartRouter.getRouter());
 app.use('/api/mock/', mockRouter.getRouter());
-app.use('/api/users/', userRouter.getRouter());
+app.use('/api/user/', userRouter.getRouter());
 app.use('/api/token/', tokenRouter.getRouter());
 
 app.get('/', (req, res) => {

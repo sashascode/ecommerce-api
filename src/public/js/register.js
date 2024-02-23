@@ -7,7 +7,7 @@ const onSubmit = async () => {
         const lastName = document.getElementById('lastName').value;
         const age = document.getElementById('age').value;
     
-        const response = await fetch('/api/users/register', {
+        const response = await fetch('/api/user/register', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

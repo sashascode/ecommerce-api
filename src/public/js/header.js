@@ -6,7 +6,7 @@ const resources = {
 }
 
 const getCurrentUser = async () => {
-    const response = await fetch('/api/users/current', {
+    const response = await fetch('/api/user/current', {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
@@ -24,7 +24,7 @@ const getCurrentUser = async () => {
 }
 
 const logout = async () => {
-    const response = await fetch('/api/users/logout', {
+    const response = await fetch('/api/user/logout', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -92,7 +92,7 @@ const getPremium = async () => {
         if(user && !user.message) sessionStorage["user"] = JSON.stringify(user);
     }
 
-    const response = await fetch('/api/users/premium/' + user.id, {
+    const response = await fetch('/api/user/premium/' + user.id, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
