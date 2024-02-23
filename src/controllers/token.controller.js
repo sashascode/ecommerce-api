@@ -20,7 +20,7 @@ export const sendPasswordLink = async (req, res) => {
             const result = await TokenService.createToken(user._id, token);
     
             if(result && result._id) {
-                const link = config.baseUrl + 'views/reset_password/' + result.userId + "/" + result.token;
+                const link = config.baseUrl + 'view/reset_password/' + result.userId + "/" + result.token;
     
                 await mailModule.sendResetPasswordMail(user, link);
                 logger.debug("[Reset Password Link]: " + link);
