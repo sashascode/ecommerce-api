@@ -100,8 +100,8 @@ const getPremium = async () => {
     });
 
     if(response.ok) {
-        const user = await getCurrentUser();
-        if(user && !user.message) sessionStorage["user"] = JSON.stringify(user);
+        const userDataRefresh = await getCurrentUser();
+        if(userDataRefresh && !userDataRefresh.message) sessionStorage["user"] = JSON.stringify(userDataRefresh);
         window.location.replace("/view/products");
     }
 }
