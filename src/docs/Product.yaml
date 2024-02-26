@@ -1,0 +1,148 @@
+paths:
+  /api/product:
+    get:
+      summary: Retrieve a list of products
+      description: |
+        This endpoint allows you to retrieve a list of products. You can specify parameters such as limit, page, sort order, and query filters to customize the results.
+      responses:
+        200:
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    description: Indicates the status of the response
+                  payload:
+                    type: object
+                    properties:
+                      productList:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/Product'
+                        description: List of products returned for the current page.
+                      totalPages:
+                        type: integer
+                        description: Total number of pages available for the product list.
+                      page:
+                        type: integer
+                        description: The current page number of the returned product list.
+                      prevPage:
+                        type: integer
+                        description: The page number of the previous page if available, null otherwise.
+                      nextPage:
+                        type: integer
+                        description: The page number of the next page if available, null otherwise.
+                      hasPrevPage:
+                        type: boolean
+                        description: Indicates whether there is a previous page available.
+                      hasNextPage:
+                        type: boolean
+                        description: Indicates whether there is a next page available.
+                      prevLink:
+                        type: string
+                        description: Link to navigate to the previous page if available, null otherwise.
+                      nextLink:
+                        type: string
+                        description: Link to navigate to the next page if available, null otherwise.
+                    description: >
+                      The response object containing paginated product data along with pagination details
+                      such as total pages, current page number, links to navigate between pages, and
+                      indicators for the availability of previous and next pages.
+        404:
+          description: The requested product was not found.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Product not found
+        500:
+          description: Internal Server Error - An unexpected error occurred on the server.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Internal Server Error
+      parameters:
+        - in: query
+          name: limit
+          schema:
+            type: integer
+          description: The maximum number of products to return.
+        - in: query
+          name: page
+          schema:
+            type: integer
+          description: The page number of the results to return.
+        - in: query
+          name: sort
+          schema:
+            type: string
+            enum: [asc, desc]
+          description: |
+            Sorts the products based on their price.
+            - Use 'asc' to sort in ascending order (lowest price first).
+            - Use 'desc' to sort in descending order (highest price first).
+        - in: query
+          name: query
+          schema:
+            type: object
+          description: |
+            Allows filtering products based on certain criteria.
+            For example: {"category": "electronics"}
+      tags:
+        - Product
+components:
+  schemas:
+    Product:
+      type: object
+      properties:
+        title:
+          type: string
+          maxLength: 100
+          description: The title of the product.
+        description:
+          type: string
+          maxLength: 500
+          description: A description of the product.
+        price:
+          type: number
+          description: The price of the product.
+        thumbnail:
+          type: string
+          description: URL of the product's thumbnail image.
+        code:
+          type: string
+          maxLength: 100
+          description: The product code.
+        stock:
+          type: integer
+          description: The available stock of the product.
+        status:
+          type: boolean
+          default: true
+          description: The status of the product (active/inactive).
+        category:
+          type: string
+          maxLength: 100
+          description: The category of the product.
+        owner:
+          type: string
+          default: admin
+          description: The owner of the product.
+      required:
+        - title
+        - description
+        - price
+        - thumbnail
+        - code
+        - stock
+        - category

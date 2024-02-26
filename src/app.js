@@ -11,10 +11,26 @@ import { ProductService, CartService, MessageService } from './repositories/inde
 import { initializePassport } from './config/passport.config.js';
 import ErrorHandler from './middlewares/errorhandler.js';
 import { addLogger, logger } from './utils/logger.js';
+
+import swaggerJSDoc from 'swagger-jsdoc';
+import SwaggerUiExpress from 'swagger-ui-express';
   
 export const app = express();
 initializePassport();
 app.use(passport.initialize());
+
+const swaggerOptions = {
+    definition: {
+        openapi: "3.0.1",
+        info: {
+            title: 'Ecommerce API Documentation',
+            description: ''
+        }
+    },
+    apis: [`${__dirname}/docs/**/*.yaml`]
+}
+const specs = swaggerJSDoc(swaggerOptions)
+app.use('/apidocs', SwaggerUiExpress.serve, SwaggerUiExpress.setup(specs))
 
 app.engine("handlebars", handlebars.engine(
     {

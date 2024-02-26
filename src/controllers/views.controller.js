@@ -6,7 +6,7 @@ export const getProducts = async (req, res) => {
     const data = await ProductService.getProducts(limit, page, sort, query, '/view/');
 
     return res.render('productList', { 
-        products: data.payload, 
+        products: data.productList, 
         totalPages: data.totalPages, 
         currentPage: data.page, 
         hasPrevPage: data.hasPrevPage, 

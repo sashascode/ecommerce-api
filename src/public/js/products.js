@@ -97,4 +97,6 @@ const updateProductsHtml = (products) => {
     document.getElementById('productsContainer').innerHTML = finalProducts;
 }
 
-socket.on('products', (products) => updateProductsHtml(products.payload));
+socket.on('products', (products) => {
+    updateProductsHtml(products.productList)
+});

@@ -84,8 +84,7 @@ export default class ProductRepository {
             const data = await this.dao.getProducts(query, options);
             
             const response = {
-                status: 'success',
-                payload: data.docs,
+                productList: data.docs,
                 totalPages: data.totalPages,
                 page: data.page,
                 prevPage: data.prevPage,
