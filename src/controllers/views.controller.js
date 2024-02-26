@@ -19,7 +19,7 @@ export const getProducts = async (req, res) => {
 export const getRealTimeProducts = async (req, res) => {
     const data = await ProductService.getProducts(40);
 
-    return res.render('realTimeProducts', { products: data.payload });
+    return res.render('realTimeProducts', { products: data.productList });
 };
 
 export const getCartById = async (req, res) => {

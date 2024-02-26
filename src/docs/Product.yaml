@@ -15,6 +15,7 @@ paths:
                   status:
                     type: string
                     description: Indicates the status of the response
+                    example: success
                   payload:
                     type: object
                     properties:
@@ -58,6 +59,9 @@ paths:
               schema:
                 type: object
                 properties:
+                  status:
+                    type: string
+                    example: error
                   error:
                     type: string
                     example: Product not found
@@ -68,6 +72,9 @@ paths:
               schema:
                 type: object
                 properties:
+                  status:
+                    type: string
+                    example: error
                   error:
                     type: string
                     example: Internal Server Error
@@ -100,6 +107,70 @@ paths:
             For example: {"category": "electronics"}
       tags:
         - Product
+    post:
+      summary: Add a new product
+      description: Add a new product to the system.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewProduct'
+      security:
+        - Cookie: []
+      responses:
+        '200':
+          description: Successfully added a new product.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  productId:
+                    type: string
+                    description: The ID of the newly added product.
+        '400':
+          description: Bad Request - The request body is missing required fields.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  error:
+                    type: string
+                    example: Required fields are missing in the request body.
+        '401':
+          description: Unauthorized - Authentication is required to access the resource.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  error:
+                    type: string
+                    example: Unauthorized
+        '500':
+          description: Internal Server Error - An unexpected error occurred on the server.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  error:
+                    type: string
+                    example: Internal Server Error
 components:
   schemas:
     Product:
@@ -146,3 +217,42 @@ components:
         - code
         - stock
         - category
+    NewProduct:
+      type: object
+      required:
+        - title
+        - description
+        - price
+        - stock
+        - thumbnail
+        - code
+        - category
+      properties:
+        title:
+          type: string
+          description: The title of the product.
+        description:
+          type: string
+          description: A description of the product.
+        price:
+          type: number
+          description: The price of the product.
+        stock:
+          type: integer
+          description: The available stock of the product.
+        thumbnail:
+          type: string
+          description: URL of the product's thumbnail image.
+        code:
+          type: string
+          description: The product code.
+        category:
+          type: string
+          description: The category of the product.
+  securitySchemes:
+    Cookie:
+      type: http
+      scheme: cookie
+      name: access_token
+      description: JWT Authorization cookie. Please use a valid JWT token.
+
