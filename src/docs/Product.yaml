@@ -4,6 +4,8 @@ paths:
       summary: Retrieve a list of products
       description: |
         This endpoint allows you to retrieve a list of products. You can specify parameters such as limit, page, sort order, and query filters to customize the results.
+      tags:
+        - Product
       responses:
         200:
           description: Successful response
@@ -52,32 +54,8 @@ paths:
                       The response object containing paginated product data along with pagination details
                       such as total pages, current page number, links to navigate between pages, and
                       indicators for the availability of previous and next pages.
-        404:
-          description: The requested product was not found.
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  status:
-                    type: string
-                    example: error
-                  error:
-                    type: string
-                    example: Product not found
         500:
-          description: Internal Server Error - An unexpected error occurred on the server.
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  status:
-                    type: string
-                    example: error
-                  error:
-                    type: string
-                    example: Internal Server Error
+          $ref: '#/components/responses/InternalServerError'
       parameters:
         - in: query
           name: limit
@@ -105,19 +83,17 @@ paths:
           description: |
             Allows filtering products based on certain criteria.
             For example: {"category": "electronics"}
-      tags:
-        - Product
     post:
       summary: Add a new product
       description: Add a new product to the system.
+      tags:
+        - Product
       requestBody:
         required: true
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/NewProduct'
-      security:
-        - Cookie: []
       responses:
         '200':
           description: Successfully added a new product.
@@ -133,44 +109,70 @@ paths:
                     type: string
                     description: The ID of the newly added product.
         '400':
-          description: Bad Request - The request body is missing required fields.
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  status:
-                    type: string
-                    example: error
-                  error:
-                    type: string
-                    example: Required fields are missing in the request body.
+          $ref: '#/components/responses/BadRequestError'
         '401':
-          description: Unauthorized - Authentication is required to access the resource.
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  status:
-                    type: string
-                    example: error
-                  error:
-                    type: string
-                    example: Unauthorized
+          $ref: '#/components/responses/UnauthorizedError'
         '500':
-          description: Internal Server Error - An unexpected error occurred on the server.
+          $ref: '#/components/responses/InternalServerError'
+  api/product/{pid}:
+    get:
+      summary: Get a product by ID
+      tags:
+        - Product
+      parameters:
+        - in: path
+          name: pid
+          required: true
+          description: ID of the product to retrieve
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    put:
+      summary: Update a product by ID
+      tags:
+        - Product
+      parameters:
+        - in: path
+          name: pid
+          required: true
+          description: ID of the product to update
+          schema:
+            type: string
+        - in: body
+          name: body
+          required: true
+          description: Updated product data
+          schema:
+            $ref: '#/components/schemas/Product'
+      responses:
+        '200':
+          description: Successful operation
           content:
             application/json:
               schema:
                 type: object
                 properties:
-                  status:
+                  status: 
                     type: string
-                    example: error
-                  error:
+                    example: success
+                  productId:
                     type: string
-                    example: Internal Server Error
+                    example: updated_product_id
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+          
 components:
   schemas:
     Product:
@@ -255,4 +257,57 @@ components:
       scheme: cookie
       name: access_token
       description: JWT Authorization cookie. Please use a valid JWT token.
+  responses:
+    NotFoundError:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                example: error
+              error:
+                type: string
+                example: Resource not found
+    UnauthorizedError:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                example: error
+              error:
+                type: string
+                example: Unauthorized
+    InternalServerError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                example: error
+              error:
+                type: string
+                example: error
+    BadRequestError:
+      description: Bad Request - The request body is missing required fields.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                example: error
+              error:
+                type: string
+                example: Required fields are missing in the request body.
 
