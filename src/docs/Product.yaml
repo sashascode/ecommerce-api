@@ -95,7 +95,7 @@ paths:
             schema:
               $ref: '#/components/schemas/NewProduct'
       responses:
-        '200':
+        200:
           description: Successfully added a new product.
           content:
             application/json:
@@ -109,11 +109,11 @@ paths:
                     type: string
                     description: The ObjectId of the newly added product.
                     example: ObjectId("507f1f77bcf86cd799439011")
-        '400':
+        400:
           $ref: '#/components/responses/BadRequestError'
-        '401':
+        401:
           $ref: '#/components/responses/UnauthorizedError'
-        '500':
+        500:
           $ref: '#/components/responses/InternalServerError'
   api/product/{pid}:
     get:
@@ -128,7 +128,7 @@ paths:
           schema:
             type: string
       responses:
-        '200':
+        200:
           description: Successful operation
           content:
             application/json:
@@ -140,9 +140,9 @@ paths:
                     example: success
                   payload:                     
                     $ref: '#/components/schemas/Product'
-        '404':
+        404:
           $ref: '#/components/responses/NotFoundError'
-        '500':
+        500:
           $ref: '#/components/responses/InternalServerError'
     put:
       summary: Update a product by ID
@@ -162,7 +162,7 @@ paths:
           schema:
             $ref: '#/components/schemas/NewProduct'
       responses:
-        '200':
+        200:
           description: Successful operation
           content:
             application/json:
@@ -175,9 +175,9 @@ paths:
                   payload:
                     type: string
                     example: ObjectId("507f1f77bcf86cd799439011")
-        '404':
+        404:
           $ref: '#/components/responses/NotFoundError'
-        '500':
+        500:
           $ref: '#/components/responses/InternalServerError'
           
 components:
