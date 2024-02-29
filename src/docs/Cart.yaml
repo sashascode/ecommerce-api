@@ -1,0 +1,385 @@
+paths:
+  /api/cart:
+    post:
+      summary: Create a new cart
+      description: |
+        This endpoint allows users to create a new cart.
+      tags:
+        - Cart
+      responses:
+        200:
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  payload:
+                    $ref: '#/components/schemas/Cart'
+        500:
+          $ref: '#/components/responses/InternalServerError'
+  /api/cart/{cid}:
+    get:
+      summary: Get a cart by ID
+      description: |
+        This endpoint allows users to retrieve a cart by its ID.
+      tags:
+        - Cart
+      parameters:
+        - in: path
+          name: cid
+          required: true
+          schema:
+            type: string
+          description: The ID of the cart to retrieve
+      responses:
+        200:
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  payload:   
+                    $ref: '#/components/schemas/Cart'
+        404:
+          $ref: '#/components/responses/NotFoundError'
+        500:
+          $ref: '#/components/responses/InternalServerError'
+    put:
+      summary: Update a cart by ID
+      description: |
+        This endpoint allows users to update a cart by its ID.
+      tags:
+        - Cart
+      parameters:
+        - in: path
+          name: cid
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: The ID of the cart to update
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CartUpdateInput'
+      responses:
+        200:
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  payload:   
+                    $ref: '#/components/schemas/Cart'
+        404:
+          $ref: '#/components/responses/NotFoundError'
+        500:
+          $ref: '#/components/responses/InternalServerError'
+  /api/cart/{cid}/products/{pid}:
+    put:
+      summary: Add a product to a cart
+      description: |
+        This endpoint allows users to add a product to a cart by its ID.
+      tags:
+        - Cart
+      parameters:
+        - in: path
+          name: cid
+          required: true
+          schema:
+            type: string
+          description: The ID of the cart to which the product will be added
+        - in: path
+          name: pid
+          required: true
+          schema:
+            type: string
+          description: The ID of the product to add to the cart
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                quantity:
+                  type: integer
+                  minimum: 1
+                  description: The quantity of the product to add to the cart
+              required:
+                - quantity
+      responses:
+        200:
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status: 
+                    type: string
+                    example: success
+                  payload:
+                    $ref: '#/components/schemas/Cart'
+        404:
+          $ref: '#/components/responses/NotFoundError'
+        500:
+          $ref: '#/components/responses/InternalServerError'
+    post:
+      summary: Add a new product to a cart
+      description: This endpoint allows users to add a new product to a cart by its ID.
+      tags:
+        - Cart
+      parameters:
+        - in: path
+          name: cid
+          required: true
+          schema:
+            type: string
+          description: The ID of the cart to which the product will be added
+        - in: path
+          name: pid
+          required: true
+          schema:
+            type: string
+          description: The ID of the product to add to the cart
+      responses:
+        200:
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  payload:   
+                    $ref: '#/components/schemas/Cart'
+        400:
+          $ref: '#/components/responses/BadRequestError'
+        404:
+          $ref: '#/components/responses/NotFoundError'
+        500:
+          $ref: '#/components/responses/InternalServerError'
+    delete:
+      summary: Delete a product from a cart
+      description: |
+        This endpoint allows users to delete a product from a cart by its ID.
+      tags:
+        - Cart
+      parameters:
+        - in: path
+          name: cid
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: The ID of the cart from which the product will be deleted
+        - in: path
+          name: pid
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: The ID of the product to delete from the cart
+      responses:
+        200:
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  payload:
+                    $ref: '#/components/schemas/Cart'
+        404:
+          $ref: '#/components/responses/NotFoundError'
+        500:
+          $ref: '#/components/responses/InternalServerError'
+  /api/cart/{cid}/purchase:
+    post:
+      summary: Purchase the items in a cart
+      description: |
+        This endpoint allows users to purchase the items in a cart.
+      tags:
+        - Cart
+      parameters:
+        - in: path
+          name: cid
+          required: true
+          schema:
+            type: string
+          description: The ID of the cart to be purchased
+      responses:
+        200:
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  payload:
+                    $ref: '#/components/schemas/PurchaseResponse'
+        400:
+          $ref: '#/components/responses/BadRequestError'
+        500:
+          $ref: '#/components/responses/InternalServerError'
+components:
+  schemas:
+    Cart:
+      type: object
+      properties:
+        _id:
+          type: string
+          format: uuid
+          description: The unique identifier of the cart.
+        timestamp:
+          type: string
+          format: date-time
+          description: The timestamp indicating when the cart was created.
+        products:
+          type: array
+          items:
+            $ref: '#/components/schemas/CartProduct'
+          description: The list of products in the cart.
+      required:
+        - _id
+        - timestamp
+        - products
+    CartProduct:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: The ID of the product in the cart.
+        quantity:
+          type: integer
+          minimum: 1
+          description: The quantity of the product in the cart.
+      required:
+        - id
+        - quantity
+    CartUpdateInput:
+      type: object
+      properties:
+        products:
+          type: array
+          items:
+            $ref: '#/components/schemas/CartProduct'
+          description: The list of products to update in the cart
+      required:
+        - products
+    PurchaseResponse:
+      type: object
+      properties:
+        ticket:
+          $ref: '#/components/schemas/Ticket'
+        products_out_of_stock:
+          type: array
+          items:
+            $ref: '#/components/schemas/CartProduct'
+      required:
+        - ticket
+    Ticket:
+      type: object
+      properties:
+        code:
+          type: string
+          format: uuid
+          description: Unique identifier for the ticket
+        purchase_datetime:
+          type: string
+          format: date-time
+          description: The date and time when the purchase was made
+        amount:
+          type: number
+          format: float
+          description: The total amount of the purchase
+        purchaser:
+          type: string
+          description: The email address of the purchaser
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/CartProduct'
+      required:
+        - code
+        - purchase_datetime
+        - amount
+        - purchaser
+        - items
+  responses:
+    NotFoundError:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                example: error
+              error:
+                type: string
+                example: Resource not found
+    UnauthorizedError:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                example: error
+              error:
+                type: string
+                example: Unauthorized
+    InternalServerError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                example: error
+              error:
+                type: string
+                example: Internal Server Error
+    BadRequestError:
+      description: Bad Request - The request body is missing required fields.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                example: error
+              error:
+                type: string
+                example: Required fields are missing in the request body.
