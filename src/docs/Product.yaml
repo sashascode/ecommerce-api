@@ -190,8 +190,6 @@ paths:
           description: ID of the product to delete
           schema:
             type: string
-      security:
-        - Cookie: []
       responses:
         200:
           description: Product successfully deleted
@@ -295,12 +293,6 @@ components:
         category:
           type: string
           description: The category of the product.
-  securitySchemes:
-    Cookie:
-      type: http
-      scheme: cookie
-      name: access_token
-      description: JWT Authorization cookie. Please use a valid JWT token.
   responses:
     NotFoundError:
       description: Resource not found
