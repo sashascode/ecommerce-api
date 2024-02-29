@@ -179,7 +179,41 @@ paths:
           $ref: '#/components/responses/NotFoundError'
         500:
           $ref: '#/components/responses/InternalServerError'
-          
+    delete:
+      summary: Delete a product by ID
+      tags:
+        - Product
+      parameters:
+        - in: path
+          name: pid
+          required: true
+          description: ID of the product to delete
+          schema:
+            type: string
+      security:
+        - Cookie: []
+      responses:
+        200:
+          description: Product successfully deleted
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  payload:
+                    type: string
+                    description: The ID of the deleted product
+                    example: ObjectId("507f1f77bcf86cd799439011")
+        401:
+          $ref: '#/components/responses/UnauthorizedError'
+        404:
+          $ref: '#/components/responses/NotFoundError'
+        500:
+          $ref: '#/components/responses/InternalServerError'
+            
 components:
   schemas:
     Product:
