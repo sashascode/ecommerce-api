@@ -1,18 +1,23 @@
 import { ProductService } from '../repositories/index.js';
 import CustomError from '../utils/errors/custom.errors.js';
 import { logger } from '../utils/logger.js';
+import { ProductNotFoundError } from '../repositories/product.repository.js';
 
 export const getProducts = async (req, res) => {
     const { limit, page, sort, query } = req.query;
-    const baseUrl = `${req.protocol}://${req.get('host')}${req.originalUrl.split('?')[0]}/api/`;
-
-    const products = await ProductService.getProducts(limit, page, sort, query, baseUrl);
+    const products = await ProductService.getProducts(limit, page, sort, query);
     
     return res.sendSuccess(products);
 };
 
 export const getProductById = async (req, res) => {
     const pid = req.params.pid;
+    const regex = /^[0-9a-fA-F]{24}$/; // Expresión regular para validar un string hexadecimal de 24 caracteres
+    const isValidID =  regex.test(pid);
+   
+    if (!isValidID) {
+        return res.sendBadRequest('Invalid product ID');
+    }
 
     try {
         const product = await ProductService.getProductById(pid);

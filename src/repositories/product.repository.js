@@ -1,4 +1,5 @@
 import { logger } from "../utils/logger.js";
+import config from "../config/config.js";
 
 export class ProductNotFoundError extends Error {
     constructor(message) {
@@ -67,9 +68,10 @@ export default class ProductRepository {
         return product;
     };
 
-    getProducts = async (limit = 10, page = 1, sort, query = {}, baseUrl = "") => {
+    getProducts = async (limit = 10, page = 1, sort, query = {}) => {
         try {
             const options = { limit, page, lean: true };
+            const baseUrl = config.baseUrl;
 
             if (sort == 'asc') {
                 options.sort = { price: 1 };
@@ -91,8 +93,8 @@ export default class ProductRepository {
                 nextPage: data.nextPage,
                 hasPrevPage: data.hasPrevPage,
                 hasNextPage: data.hasNextPage,
-                prevLink: data.hasPrevPage ? `${baseUrl}products?limit=${limit}&page=${data.prevPage}` : null,
-                nextLink: data.hasNextPage ? `${baseUrl}products?limit=${limit}&page=${data.nextPage}` : null
+                prevLink: data.hasPrevPage ? `${baseUrl}api/product?limit=${limit}&page=${data.prevPage}` : null,
+                nextLink: data.hasNextPage ? `${baseUrl}api/product?limit=${limit}&page=${data.nextPage}` : null
             }
             
             return response;
