@@ -1,5 +1,7 @@
 import { CartService, ProductService } from "../repositories/index.js";
+import { CartNotFoundError } from "../repositories/cart.repository.js";
 import CustomError from "../utils/errors/custom.errors.js";
+import { isValid24HexString } from "../utils.js";
 
 export const createCart = async (req, res) => {
     try {
@@ -14,6 +16,8 @@ export const createCart = async (req, res) => {
 
 export const getCartById = async (req, res) => {
     const cid = req.params.cid;
+
+    if(!isValid24HexString(cid)) return res.sendBadRequest('Invalid cart ID, must be a string of 24 hex characters.');
 
     try {
         const result = await CartService.getCartById(cid);

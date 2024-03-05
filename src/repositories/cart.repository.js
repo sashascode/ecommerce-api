@@ -38,13 +38,13 @@ export default class CartRepository {
     }
 
     getCartById = async (id) => {
-        try {
-            const cart = await this.cartDao.getCartById(id);
-            return cart;
+        const cart = await this.cartDao.getCartById(id);
+
+        if (!cart) {
+            throw new CartNotFoundError("A cart with that ID does not exist.");
         }
-        catch(error) {
-            throw new FileError('Error while getting a cart: ' + error.message);
-        }
+
+        return cart;
     };
 
     addProductToCart = async (cid, pid, quantity) => {
@@ -84,17 +84,13 @@ export default class CartRepository {
     };    
 
     updateCart = async (cid, products) => {
-        try {
-            const updatedCart = await this.cartDao.updateCart(cid, products);
-    
-            if (!updatedCart) {
-                throw new CartNotFoundError("A cart with that ID does not exist.");
-            }
-    
-            return updatedCart;
-        } catch (error) {
-            throw new FileError('Error updating cart: ' + error.message);
+        const updatedCart = await this.cartDao.updateCart(cid, products);
+
+        if (!updatedCart) {
+            throw new CartNotFoundError("A cart with that ID does not exist.");
         }
+
+        return updatedCart;
     };
 
     deleteCart = async (cid) => {

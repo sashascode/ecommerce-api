@@ -79,3 +79,8 @@ export const compareAsync = (password, hash) => {
         });
     });
 }
+
+export const isValid24HexString = (string) => {
+    const regex = /^[0-9a-fA-F]{24}$/; // Expresión regular para validar un string hexadecimal de 24 caracteres
+    return regex.test(string);
+}

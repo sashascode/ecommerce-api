@@ -11,12 +11,12 @@ export const registerUser = async (req, res, next) => {
     try 
     {
         if(!req.body.first_name || !req.body.last_name || !req.body.email || !password || !confirmPassword || !req.body.age) {
-            CustomError.createUser(req.body);
+            res.sendBadRequest('Missing required fields.');
         }
 
-        if(req.body.age < 18 || req.body.age > 65) CustomError.createUser(req.body);
+        if(req.body.age < 18 || req.body.age > 65) res.sendBadRequest('Invalid age range');
 
-        if (password !== confirmPassword) CustomError.passwordsDontMatch();
+        if (password !== confirmPassword) res.sendBadRequest('Passwords doesnt match');
     
         const passwordHashed = await createHash(password);
         

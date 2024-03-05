@@ -29,7 +29,7 @@ export default class UserDAO {
         return await this.userModel.findByIdAndUpdate(id, user);
     }
 
-    async deleteUser(id) {
-        return await this.userModel.findByIdAndDelete(id);
+    async deleteUser(email) {
+        return await this.userModel.findOneAndDelete({ email: email });
     }
 }

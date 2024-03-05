@@ -2,6 +2,7 @@ import { ProductService } from '../repositories/index.js';
 import CustomError from '../utils/errors/custom.errors.js';
 import { logger } from '../utils/logger.js';
 import { ProductNotFoundError } from '../repositories/product.repository.js';
+import { isValid24HexString } from '../utils.js';
 
 export const getProducts = async (req, res) => {
     const { limit, page, sort, query } = req.query;
@@ -12,13 +13,9 @@ export const getProducts = async (req, res) => {
 
 export const getProductById = async (req, res) => {
     const pid = req.params.pid;
-    const regex = /^[0-9a-fA-F]{24}$/; // Expresión regular para validar un string hexadecimal de 24 caracteres
-    const isValidID =  regex.test(pid);
    
-    if (!isValidID) {
-        return res.sendBadRequest('Invalid product ID');
-    }
-
+    if (!isValid24HexString(pid)) return res.sendBadRequest('Invalid product ID');
+    
     try {
         const product = await ProductService.getProductById(pid);
         return res.sendSuccess(product);
