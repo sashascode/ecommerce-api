@@ -3,6 +3,7 @@ import CustomError from '../utils/errors/custom.errors.js';
 import { logger } from '../utils/logger.js';
 import { ProductNotFoundError } from '../repositories/product.repository.js';
 import { isValid24HexString } from '../utils.js';
+import messages from '../resources/messages.js';
 
 export const getProducts = async (req, res) => {
     const { limit, page, sort, query } = req.query;
@@ -14,7 +15,7 @@ export const getProducts = async (req, res) => {
 export const getProductById = async (req, res) => {
     const pid = req.params.pid;
    
-    if (!isValid24HexString(pid)) return res.sendBadRequest('Invalid product ID');
+    if (!isValid24HexString(pid)) return res.sendBadRequest(messages.error.products.INVALID_ID);
     
     try {
         const product = await ProductService.getProductById(pid);
@@ -45,7 +46,7 @@ export const addProduct = async (req, res, next) => {
         }
         
         if(user.role !== "ADMIN_ROLE" && user.role !== "PREMIUM_ROLE") {
-            throw new Error("The user role is not allowed to add products.");
+            throw new Error(messages.error.products.INVALID_ROLE_ADD);
         }
 
         data.owner = user?.role === "ADMIN_ROLE" ? 'admin' : user.email;
@@ -88,7 +89,7 @@ export const deleteProduct = async (req, res, next) => {
         const pOwner = await ProductService.getProductOwner(pid);
 
         if(pOwner.owner !== req.user.email && req.user.role !== "ADMIN_ROLE") {
-            throw new Error("The user does not have permission to delete this product."); 
+            throw new Error(messages.error.products.INVALID_USER_DELETE); 
         }
 
         const deleteProductRes = await ProductService.deleteProduct(pid);
