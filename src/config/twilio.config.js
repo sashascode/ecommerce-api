@@ -10,17 +10,22 @@ const client = twilio(accountSid, authToken)
 
 const optionsWpp = {
     body: 'Hola soy un WSP desde Node.js!',
-    from: 'whatsapp:+14155238886',
-    to: 'whatsapp:+5493425400184'
+    from: 'whatsapp:' + process.env.TWILIO_PHONE_NUMBER,
+    to: ''
 } 
 
-async function sendSMS() {
+async function sendSMS(body, to) {
     try {
+        if(!to) throw new Error('Recipient number is required for sending SMS.');
+        
+        optionsWpp.to = to;
+        if(body) optionsWpp.body = body;
+
         const message = await client.messages.create(optionsWpp);
         logger.debug("SMS sent: ", message);
-     } catch (error) {
+    } catch (error) {
         logger.error(error);
-     }
+    }
 }
 
 export default { sendSMS };

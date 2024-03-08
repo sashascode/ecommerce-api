@@ -3,12 +3,9 @@ const ErrorHandler = (err, req, res, next) => {
     const errMsg = err.message || 'Something went wrong';
 
     res.status(errStatus).json({
-        success: false,
-        status: errStatus,
-        message: errMsg,
-        cause: err.cause || {},
-        stack: process.env.NODE_ENV === 'dev' ? err.stack : {}
-    })
+        status: 'error',
+        payload: errMsg
+    });
 }
 
-export default ErrorHandler
+export default ErrorHandler;
