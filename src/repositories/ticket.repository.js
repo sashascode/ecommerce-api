@@ -1,4 +1,4 @@
-import messages from "../resources/messages";
+import messages from "../resources/messages.js";
 
 export default class TicketRepository {
     constructor(dao) {

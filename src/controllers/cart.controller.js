@@ -1,5 +1,4 @@
 import { CartService, ProductService } from "../repositories/index.js";
-import { CartNotFoundError } from "../repositories/cart.repository.js";
 import CustomError from "../utils/errors/custom.errors.js";
 import { isValid24HexString } from "../utils.js";
 import messages from "../resources/messages.js";
@@ -25,11 +24,7 @@ export const getCartById = async (req, res) => {
         return res.sendSuccess(result);
     }
     catch(error) {
-        if (error instanceof CartNotFoundError) {
-            res.sendNotFound(error.message);
-        } else {
-            res.sendServerError(error);
-        }
+        console.log(error)
     }
 };
 
@@ -41,11 +36,7 @@ export const updateCart = async (req, res) => {
         return res.sendSuccess(result);
     }
     catch(error) {
-        if (error instanceof CartNotFoundError) {
-            res.sendNotFound(error.message);
-        } else {
-            res.sendServerError(error);
-        }
+        console.log(error)
     }
 };
 
@@ -80,11 +71,7 @@ export const addProductInCart = async (req, res) => {
         return res.sendSuccess(result);
     }
     catch(error) {
-        if (error instanceof CartNotFoundError) {
-            res.sendNotFound(error.message);
-        } else {
-            res.sendServerError(error);
-        }
+        console.log(error)
     }
 };
 
@@ -103,11 +90,7 @@ export const addNewProductToCart = async (req, res) => {
         return res.sendSuccess(result);
     }
     catch(error) {
-        if (error instanceof CartNotFoundError) {
-            res.sendNotFound(error.message);
-        } else {
-            res.sendServerError(error);
-        }
+       console.log(error)
     }
 };
 
@@ -120,11 +103,7 @@ export const deleteProductFromCart = async (req, res) => {
         return res.sendSuccess(result);
     }
     catch(error) {
-        if (error instanceof CartNotFoundError) {
-            res.sendNotFound(error.message);
-        } else {
-            res.sendServerError(error);
-        }
+       console.log(error)
     }
 };
 
