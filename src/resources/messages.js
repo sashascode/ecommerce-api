@@ -8,7 +8,8 @@ const messages = {
             CREATE_ERROR: "Error while creating: ",
             NOT_FOUND: "Document with given ID not found.",
             EMAIL_REQUIRED: "Email is required.",
-            MISSING_FIELDS: "Missing required fields."
+            MISSING_FIELDS: "Missing required fields.",
+            INTERNAL_SERVER_ERROR: "Internal Server Error: Our servers encountered an unexpected issue while processing your request. Please try again in a few minutes. If the problem persists, contact support for assistance."
         },
         product: {
             INVALID_ROLE_ADD: "The user role is not allowed to add products.",

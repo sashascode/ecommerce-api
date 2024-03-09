@@ -1,16 +1,16 @@
 import messages from "../../resources/messages.js"
 import EErrors from "./enums.js"
-import { generateUserErrorInfo, generateProductErrorInfo } from "./info.js"
+import { generateUserErrorInfo, generateProductErrorInfo, generateOrderErrorInfo } from "./info.js"
 
 export default class CustomError {
 
     static createError({ name = 'Error', cause, message, code, statusCode }) {
-        const error = new Error(message, { cause })
-        error.name = name
-        error.code = code
-        error.statusCode = statusCode
+        const error = new Error(message, { cause });
+        error.name = name;
+        error.code = code;
+        error.statusCode = statusCode;
 
-        throw error
+        throw error;
     }
 
     static createUser(user) {
@@ -43,11 +43,11 @@ export default class CustomError {
         })
     }
 
-    static createOrder() {
+    static createOrder(data) {
         CustomError.createError({
             name: 'Ticket creation error',
             cause: 'Invalid ticket data',
-            message: 'Error trying to create ticket',
+            message: generateOrderErrorInfo(data),
             code: EErrors.INVALID_TYPES_ERROR,
             statusCode: 400
         })

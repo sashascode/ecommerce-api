@@ -9,12 +9,12 @@ export const createCart = async (req, res) => {
         return res.sendSuccess(result);
     }
     catch(error) {
-        res.sendServerError(error);
+        return res.sendServerError(error);
     }
     
 };
 
-export const getCartById = async (req, res) => {
+export const getCartById = async (req, res, next) => {
     const cid = req.params.cid;
 
     if(!isValid24HexString(cid)) return res.sendBadRequest(messages.error.all.INVALID_ID);
@@ -24,11 +24,11 @@ export const getCartById = async (req, res) => {
         return res.sendSuccess(result);
     }
     catch(error) {
-        console.log(error)
+        next(error);
     }
 };
 
-export const updateCart = async (req, res) => {
+export const updateCart = async (req, res, next) => {
     const cid = req.params.cid;
 
     try {
@@ -36,11 +36,11 @@ export const updateCart = async (req, res) => {
         return res.sendSuccess(result);
     }
     catch(error) {
-        console.log(error)
+        next(error);
     }
 };
 
-export const deleteCart = async (req, res) => {
+export const deleteCart = async (req, res, next) => {
     const cid = req.params.cid;
 
     try {
@@ -48,15 +48,11 @@ export const deleteCart = async (req, res) => {
         return res.sendSuccess(result);
     }
     catch(error) {
-        if (error instanceof CartNotFoundError) {
-            res.sendNotFound(error.message);
-        } else {
-            res.sendServerError(error);
-        }
+        next(error);
     }
 };
 
-export const addProductInCart = async (req, res) => {
+export const addProductInCart = async (req, res, next) => {
     const cid = req.params.cid;
     const pid = req.params.pid;
 
@@ -71,11 +67,11 @@ export const addProductInCart = async (req, res) => {
         return res.sendSuccess(result);
     }
     catch(error) {
-        console.log(error)
+        next(error);
     }
 };
 
-export const addNewProductToCart = async (req, res) => {
+export const addNewProductToCart = async (req, res, next) => {
     const cid = req.params.cid;
     const pid = req.params.pid;
     const user = req.user.email;
@@ -90,11 +86,11 @@ export const addNewProductToCart = async (req, res) => {
         return res.sendSuccess(result);
     }
     catch(error) {
-       console.log(error)
+        next(error);
     }
 };
 
-export const deleteProductFromCart = async (req, res) => {
+export const deleteProductFromCart = async (req, res, next) => {
     const cid = req.params.cid;
     const pid = req.params.pid;
 
@@ -103,7 +99,7 @@ export const deleteProductFromCart = async (req, res) => {
         return res.sendSuccess(result);
     }
     catch(error) {
-       console.log(error)
+        next(error);
     }
 };
 
