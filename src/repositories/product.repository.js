@@ -35,7 +35,7 @@ export default class ProductRepository {
             const uniqueCode = await this.#isUniqueCode(code);
     
             if(!uniqueCode) {
-                throw new Error(messages.error.products.DUPLICATED_CODE);
+                throw new Error(messages.error.product.DUPLICATED_CODE);
             }
     
             const product = {
@@ -55,7 +55,7 @@ export default class ProductRepository {
         }
         catch(error) {
             logger.debug(error)
-            throw new Error(messages.error.products.CREATE_ERROR + error.message);
+            throw new Error(messages.error.all.CREATE_ERROR + error.message);
         }   
     }
 
@@ -63,7 +63,7 @@ export default class ProductRepository {
         const product = await this.dao.getProductById(id);
 
         if (!product) {
-            throw new ProductNotFoundError(messages.error.products.NOT_FOUND);
+            throw new ProductNotFoundError(messages.error.all.NOT_FOUND);
         }
         
         return product;
@@ -101,7 +101,7 @@ export default class ProductRepository {
             return response;
         }
         catch(error) {
-            throw new FileError(messages.error.products.GET_ERROR + error.message);
+            throw new FileError(messages.error.all.GET_ERROR + error.message);
         };
     };
 
@@ -111,7 +111,7 @@ export default class ProductRepository {
             return res._id;
         }
         catch (err) {
-            throw new Error(messages.error.products.UPDATE_ERROR + err.message);
+            throw new Error(messages.error.all.UPDATE_ERROR + err.message);
         }
     }
 
@@ -121,7 +121,7 @@ export default class ProductRepository {
             return res._id;
         }
         catch (err) {
-            throw new Error(messages.error.products.DELETE_ERROR + err.message);
+            throw new Error(messages.error.all.DELETE_ERROR + err.message);
         }
         
     };   
@@ -132,8 +132,8 @@ export default class ProductRepository {
             return res._id;
         }
         catch (err) {
-            logger.error(messages.error.products.UPDATE_ERROR + err.message);
-            throw new Error(messages.error.products.UPDATE_ERROR + err.message);
+            logger.error(messages.error.all.UPDATE_ERROR + err.message);
+            throw new Error(messages.error.all.UPDATE_ERROR + err.message);
         }
     }
 
@@ -143,8 +143,8 @@ export default class ProductRepository {
             return owner;
         }
         catch (err) {
-            logger.error(messages.error.products.GET_ERROR + err.message);
-            throw new Error(messages.error.products.GET_ERROR + err.message);
+            logger.error(messages.error.product.GET_ERROR + err.message);
+            throw new Error(messages.error.product.GET_ERROR + err.message);
         }
     }
 }

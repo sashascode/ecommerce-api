@@ -15,7 +15,7 @@ export const getProducts = async (req, res) => {
 export const getProductById = async (req, res) => {
     const pid = req.params.pid;
    
-    if (!isValid24HexString(pid)) return res.sendBadRequest(messages.error.products.INVALID_ID);
+    if (!isValid24HexString(pid)) return res.sendBadRequest(messages.error.all.INVALID_ID);
     
     try {
         const product = await ProductService.getProductById(pid);
@@ -46,13 +46,13 @@ export const addProduct = async (req, res, next) => {
         }
         
         if(user.role !== "ADMIN_ROLE" && user.role !== "PREMIUM_ROLE") {
-            throw new Error(messages.error.products.INVALID_ROLE_ADD);
+            throw new Error(messages.error.product.INVALID_ROLE_ADD);
         }
 
         data.owner = user?.role === "ADMIN_ROLE" ? 'admin' : user.email;
   
         const addProductRes = await ProductService.addProduct(data);
-        return res.json({ productId: addProductRes });
+        return res.sendSuccess(addProductRes);
     }
     catch(error) {
         logger.debug(error)
@@ -66,13 +66,13 @@ export const updateProduct = async (req, res) => {
 
     try {
         const updateProductRes = await ProductService.updateProduct(pid, data);
-        return res.json({ productId: updateProductRes });
+        return res.sendSuccess(updateProductRes);
     }
     catch(error) {
         if (error instanceof ProductNotFoundError) {
-            res.status(404).json({ error: error.message });
+            res.sendNotFound(error.message);
         } else {
-            res.status(500).json({error: "Internal server error: " + error.message });
+            res.sendServerError("Internal server error: " + error.message);
         }
     }
    
@@ -89,11 +89,11 @@ export const deleteProduct = async (req, res, next) => {
         const pOwner = await ProductService.getProductOwner(pid);
 
         if(pOwner.owner !== req.user.email && req.user.role !== "ADMIN_ROLE") {
-            throw new Error(messages.error.products.INVALID_USER_DELETE); 
+            throw new Error(messages.error.product.INVALID_USER_DELETE); 
         }
 
         const deleteProductRes = await ProductService.deleteProduct(pid);
-        return res.json({ productId: deleteProductRes });
+        return res.sendSuccess(deleteProductRes);
     }
     catch(error) {
         next(error);

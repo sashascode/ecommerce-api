@@ -4,6 +4,7 @@ import { createHash } from "../utils.js";
 import CurrentUserDTO from "../DTO/currentUser.dto.js";
 import CustomError from "../utils/errors/custom.errors.js";
 import { logger } from "../utils/logger.js";
+import messages from "../resources/messages.js";
 
 export const registerUser = async (req, res, next) => {
     const { password, confirmPassword } = req.body;
@@ -11,12 +12,12 @@ export const registerUser = async (req, res, next) => {
     try 
     {
         if(!req.body.first_name || !req.body.last_name || !req.body.email || !password || !confirmPassword || !req.body.age) {
-            res.sendBadRequest('Missing required fields.');
+            res.sendBadRequest(messages.error.all.MISSING_FIELDS);
         }
 
-        if(req.body.age < 18 || req.body.age > 65) res.sendBadRequest('Invalid age range');
+        if(req.body.age < 18 || req.body.age > 65) res.sendBadRequest(messages.error.user.INVALID_AGE);
 
-        if (password !== confirmPassword) res.sendBadRequest('Passwords doesnt match');
+        if (password !== confirmPassword) res.sendBadRequest(messages.error.user.PASSWORD_MATCH_ERROR);
     
         const passwordHashed = await createHash(password);
         
@@ -34,7 +35,7 @@ export const registerUser = async (req, res, next) => {
             return res.sendSuccess(user);
         }
         
-        return res.sendBadRequest('User couldnt be registered');
+        return res.sendBadRequest(messages.error.user.REGISTER_ERROR);
     }
     catch (error) 
     {
@@ -58,7 +59,7 @@ export const loginUser = async (req, res, next) => {
 
         const user = new CurrentUserDTO(req.user._doc);
 
-        return res.status(201).json(user);
+        return res.sendSuccess(user);
     }
     catch (error) 
     {
@@ -81,29 +82,29 @@ export const loginGithub = async (req, res) => {
 
 export const logoutUser = async (req, res) => {
     res.clearCookie('access_token');
-    res.status(200).json({ message: 'User logged out' });
+    res.sendSuccess({ message: messages.success.user.LOGOUT_SUCCESS });
 };
 
 export const getCurrentUser = async (req, res) => {
-    if(!req.user) return res.status(401).json({ message: "Unauthorized" });
+    if(!req.user) return res.sendNoAuthenticatedError({ message: "Unauthorized" });
     
     let user = await UserService.getUserByEmail(req.user.email);
     user = new CurrentUserDTO(user);
 
-    res.status(200).json(user);
+    res.sendSuccess(user);
 }
 
 export const updateUserRole = async (req, res) => {
     const { uid } = req.params;
 
     if (!uid) {
-        return res.sendBadRequest("User id is undefined or null");
+        return res.sendBadRequest(messages.error.all.INVALID_ID);
     }
 
     const role = await UserService.getUserRole(uid);
 
     if (role && role.role === 'ADMIN_ROLE') {
-        return res.sendBadRequest("Admin role can't be changed");
+        return res.sendBadRequest(messages.error.user.ADMIN_ROLE_CHANGE);
     }
 
     const newRole = role && role.role === 'PREMIUM_ROLE' ? 'USER_ROLE' : 'PREMIUM_ROLE';

@@ -2,6 +2,7 @@ import { CartService, ProductService } from "../repositories/index.js";
 import { CartNotFoundError } from "../repositories/cart.repository.js";
 import CustomError from "../utils/errors/custom.errors.js";
 import { isValid24HexString } from "../utils.js";
+import messages from "../resources/messages.js";
 
 export const createCart = async (req, res) => {
     try {
@@ -17,7 +18,7 @@ export const createCart = async (req, res) => {
 export const getCartById = async (req, res) => {
     const cid = req.params.cid;
 
-    if(!isValid24HexString(cid)) return res.sendBadRequest('Invalid cart ID, must be a string of 24 hex characters.');
+    if(!isValid24HexString(cid)) return res.sendBadRequest(messages.error.all.INVALID_ID);
 
     try {
         const result = await CartService.getCartById(cid);
@@ -72,7 +73,7 @@ export const addProductInCart = async (req, res) => {
 
     try {
         if(!quantity) {
-            throw new Error("Quantity is required and must be a integer");
+            throw new Error(messages.error.cart.QUANTITY_REQUIRED);
         }
 
         const result = await CartService.addProductToCart(cid, pid, quantity);
@@ -95,7 +96,7 @@ export const addNewProductToCart = async (req, res) => {
     try {
         const pOwner = await ProductService.getProductOwner(pid);  
         if(pOwner.owner == user) {
-            return res.sendBadRequest("You cannot add your own products to the cart");
+            return res.sendBadRequest(messages.error.cart.OWN_PRODUCT_ERROR);
         }      
 
         const result = await CartService.addProductToCart(cid, pid);

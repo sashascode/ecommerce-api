@@ -1,3 +1,5 @@
+import messages from "../resources/messages";
+
 export default class TicketRepository {
     constructor(dao) {
         this.dao = dao;
@@ -9,7 +11,7 @@ export default class TicketRepository {
             return res;
         }
         catch(error) {
-            throw new Error('Error while creating a ticket: ' + error.message);
+            throw new Error(messages.error.all.CREATE_ERROR + error.message);
         }
     }
 
@@ -19,7 +21,7 @@ export default class TicketRepository {
             return ticket;
         }
         catch(error) {
-            throw new Error('Error while getting a ticket: ' + error.message);
+            throw new Error(messages.error.all.GET_ERROR + error.message);
         }
     };
 
@@ -29,7 +31,7 @@ export default class TicketRepository {
             return tickets;
         }
         catch(error) {
-            throw new Error('Error while getting tickets: ' + error.message);
+            throw new Error(messages.error.all.GET_ERROR + error.message);
         }
     };
 
@@ -39,7 +41,7 @@ export default class TicketRepository {
             return res;
         }
         catch(error) {
-            throw new Error('Error while updating a ticket: ' + error.message);
+            throw new Error(messages.error.all.UPDATE_ERROR + error.message);
         }
     };
 
@@ -49,7 +51,7 @@ export default class TicketRepository {
             return res;
         }
         catch(error) {
-            throw new Error('Error while deleting a ticket: ' + error.message);
+            throw new Error(messages.error.all.DELETE_ERROR + error.message);
         }
     };
 
@@ -59,7 +61,7 @@ export default class TicketRepository {
             return ticket;
         }
         catch(error) {
-            throw new Error('Error while getting a ticket: ' + error.message);
+            throw new Error(messages.error.all.GET_ERROR + error.message);
         }
     };
 

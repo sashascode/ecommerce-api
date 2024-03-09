@@ -1,5 +1,5 @@
 import { logger } from "../utils/logger.js";
-
+import messages from "../resources/messages.js";
 
 export default class TokenRepository {
     constructor(tokenDao, userDao, mailModule) {
@@ -12,7 +12,7 @@ export default class TokenRepository {
             return await this.tokenDao.createToken(userId, token);        
         }
         catch (error) {
-            logger.error('Error while creating reset password token: ' + error);
+            logger.error(messages.error.all.CREATE_ERROR + error.message);
             throw error;
         }
     }
@@ -22,7 +22,7 @@ export default class TokenRepository {
             return await this.tokenDao.getToken(userId, token);        
         }
         catch (error) {
-            logger.error('Error while getting reset password token: ' + error);
+            logger.error(messages.error.all.GET_ERROR + error);
             throw error;
         }
     }
@@ -47,7 +47,7 @@ export default class TokenRepository {
             }
             
         } catch (error) {
-            logger.error('Error while getting reset password token: ' + error);
+            logger.error(messages.error.token.COULDNT_RESET_PASSWORD + error);
             throw error;
         }
     }

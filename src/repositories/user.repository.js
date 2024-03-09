@@ -1,4 +1,5 @@
 import { logger } from "../utils/logger.js";
+import messages from "../resources/messages.js";
 
 export default class UserRepository {
     constructor(userDao, mailModule) {
@@ -12,7 +13,7 @@ export default class UserRepository {
             return await this.userDao.getUserByEmail(email);
         }
         catch (error) {
-            logger.error('Error while getting user by email: ' + error);
+            logger.error(messages.error.all.GET_ERROR + error);
             throw error;
         }
     }
@@ -22,7 +23,7 @@ export default class UserRepository {
             return await this.userDao.getUserById(id);
         }
         catch (error) {
-            logger.error('Error while getting user by id: ' + error);
+            logger.error(messages.error.all.GET_ERROR + error);
             throw error;
         }
     }

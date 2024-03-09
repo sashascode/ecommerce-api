@@ -1,4 +1,5 @@
 import { logger } from "../utils/logger.js";
+import messages from "../resources/messages.js";
 
 export class CartNotFoundError extends Error {
     constructor(message) {
@@ -32,7 +33,7 @@ export default class CartRepository {
             return res;
         }
         catch(error) {
-            throw new FileError('Error while creating a cart: ' + error.message);
+            throw new FileError(messages.error.all.CREATE_ERROR + error.message);
         }
         
     }
@@ -41,7 +42,7 @@ export default class CartRepository {
         const cart = await this.cartDao.getCartById(id);
 
         if (!cart) {
-            throw new CartNotFoundError("A cart with that ID does not exist.");
+            throw new CartNotFoundError(messages.error.all.NOT_FOUND);
         }
 
         return cart;
@@ -74,12 +75,12 @@ export default class CartRepository {
             const updatedCart = await this.cartDao.deleteProductFromCart(cid, pid);
     
             if (!updatedCart) {
-                throw new Error("Product not found in cart");
+                throw new Error(messages.error.cart.PRODUCT_NOT_FOUND);
             }
 
             return updatedCart;
         } catch (error) {
-            throw new FileError('Error deleting product from cart: ' + error.message);
+            throw new FileError(messages.error.cart.PRODUCT_DELETE_ERROR + error.message);
         }
     };    
 
@@ -87,7 +88,7 @@ export default class CartRepository {
         const updatedCart = await this.cartDao.updateCart(cid, products);
 
         if (!updatedCart) {
-            throw new CartNotFoundError("A cart with that ID does not exist.");
+            throw new CartNotFoundError(messages.error.all.NOT_FOUND);
         }
 
         return updatedCart;
@@ -99,7 +100,7 @@ export default class CartRepository {
 
             return res;
         } catch (error) {
-            throw new FileError('Error deleting cart products: ' + error.message);
+            throw new FileError(messages.error.all.DELETE_ERROR + error.message);
         }
     }
 
@@ -115,7 +116,7 @@ export default class CartRepository {
 
             return subtotal;
         } catch (error) {
-            throw new FileError('Error getting cart subtotal: ' + error.message);
+            throw new FileError(messages.error.cart.GET_SUBTOTAL_ERROR + error.message);
         }
     }
 
@@ -144,7 +145,7 @@ export default class CartRepository {
             }
 
         } catch (error) {
-            throw new Error('Error purchasing cart: ' + error.message);
+            throw new Error(messages.error.cart.PURCHASE_ERROR + error.message);
         } finally {
             logger.debug("productsPurchased:", productsPurchased)
 
@@ -174,7 +175,7 @@ export default class CartRepository {
 
             return true;
         } catch (error) {
-            throw new FileError('Error validating product stock: ' + error.message);
+            throw new FileError(messages.error.cart.VALIDATE_STOCK_ERROR + error.message);
         }
     }
     
