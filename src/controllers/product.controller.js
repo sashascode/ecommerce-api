@@ -1,7 +1,6 @@
 import { ProductService } from '../repositories/index.js';
 import CustomError from '../utils/errors/custom.errors.js';
 import { logger } from '../utils/logger.js';
-import { ProductNotFoundError } from '../repositories/product.repository.js';
 import { isValid24HexString } from '../utils.js';
 import messages from '../resources/messages.js';
 

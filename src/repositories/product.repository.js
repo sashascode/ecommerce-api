@@ -3,20 +3,6 @@ import config from "../config/config.js";
 import messages from "../resources/messages.js";
 import CustomError from "../utils/errors/custom.errors.js";
 
-export class ProductNotFoundError extends Error {
-    constructor(message) {
-        super(message);
-        this.name = "ProductNotFoundError";
-    }
-}
-
-export class FileError extends Error {
-    constructor(message) {
-        super(message);
-        this.name = "FileError";
-    }
-}
-
 export default class ProductRepository {
     constructor(dao) {
         this.dao = dao;
