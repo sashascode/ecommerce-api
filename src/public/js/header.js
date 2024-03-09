@@ -51,7 +51,9 @@ const initializeHeader = async () => {
         if(user && !user.message) sessionStorage["user"] = JSON.stringify(user);
     }
 
-    if(user && !user.message) {
+    if(user && user.status == 'success') {
+        user = user.payload;
+
         const hiddenElements = document.querySelectorAll('.hidden');
         const roleClass = user?.role?.toLowerCase();
 
