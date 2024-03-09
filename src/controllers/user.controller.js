@@ -5,6 +5,7 @@ import CurrentUserDTO from "../DTO/currentUser.dto.js";
 import CustomError from "../utils/errors/custom.errors.js";
 import { logger } from "../utils/logger.js";
 import messages from "../resources/messages.js";
+import config from "../config/config.js";
 
 export const registerUser = async (req, res, next) => {
     const { password, confirmPassword } = req.body;
@@ -53,7 +54,7 @@ export const loginUser = async (req, res, next) => {
 
         res.cookie('access_token', token, {
             httpOnly: true,
-            secure: process.env.NODE_ENV === 'prod',
+            secure: config.environment === 'prod',
             maxAge: 24 * 60 * 60 * 1000 // 1 day
         });
 
@@ -73,7 +74,7 @@ export const loginGithub = async (req, res) => {
 
     res.cookie('access_token', token, {
         httpOnly: true,
-        secure: process.env.NODE_ENV === 'prod',
+        secure: config.environment === 'prod',
         maxAge: 24 * 60 * 60 * 1000 // 1 day
     });
 

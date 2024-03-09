@@ -1,5 +1,4 @@
 import { Router } from "express";
-import jwt from 'jsonwebtoken'
 import 'dotenv/config'
 import { passportCall } from "../utils.js";
 import { logger } from "../utils/logger.js";
@@ -59,7 +58,6 @@ export default class AppRouter {
       try {
         await callback.apply(this, params)
       } catch (error) {
-        logger.debug("catch: " + error)
         params[1].status(500).send(error)
       }
 
@@ -67,10 +65,9 @@ export default class AppRouter {
   }
 
   generateCustomResponse = (req, res, next) => {
-    res.sendSuccess = payload => res.json({ status: 'success', payload })
+    res.sendSuccess = payload => res.status(200).json({ status: 'success', payload })
     res.sendServerError = error => res.status(500).json({ status: 'error', error })
     res.sendNoAuthenticatedError = (error = 'No auth') => res.status(401).json({ status: 'error', error })
-    res.sendNoAuthorizedError = (error = 'No authorized') => res.status(403).json({ status: 'error', error })
     res.sendNotFound = (error = 'Not found') => res.status(404).json({ status: 'error', error }),
     res.sendForbidden = (error = 'Forbidden') => res.status(403).json({ status: 'error', error }),
     res.sendBadRequest = (error = 'Bad request') => res.status(400).json({ status: 'error', error }),
@@ -84,7 +81,7 @@ export default class AppRouter {
     if(policies.length > 0) {
       passportCall('jwt', policies)(req, res, next)
     } else {
-      return res.sendNoAuthenticatedError('This resource is private ')
+      return res.sendNoAuthenticatedError('This resource is private.')
     }
   }
 

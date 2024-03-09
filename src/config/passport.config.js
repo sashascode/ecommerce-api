@@ -1,10 +1,11 @@
+import 'dotenv/config';
 import passport from "passport";
-import { UserService } from "../repositories/index.js";
-import GitHubStrategy from "passport-github2";
-import { createHash, compareAsync } from "../utils.js"
 import local from 'passport-local';
 import jwt from 'passport-jwt';
-import 'dotenv/config';
+import GitHubStrategy from "passport-github2";
+import { UserService } from "../repositories/index.js";
+
+import { createHash, compareAsync } from "../utils.js"
 import { logger } from "../utils/logger.js";
 
 const LocalStrategy = local.Strategy;

@@ -1,6 +1,6 @@
-import * as dotenv from 'dotenv';
-dotenv.config();
+import 'dotenv/config';
 import twilio from 'twilio';
+
 import { logger } from '../utils/logger.js';
 
 const accountSid = process.env.TWILIO_ACCOUNT_SID;

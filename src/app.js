@@ -1,17 +1,18 @@
 import express from 'express';
-import 'dotenv/config'
+import config from './config/config.js';
 import passport from 'passport';
 import cookieParser from 'cookie-parser';
 import bodyParser from 'body-parser';
 import handlebars from 'express-handlebars';
 import { Server } from 'socket.io';
-import { __dirname } from './utils.js';
-import { ViewRouter, ProductRouter, UserRouter, CartRouter, MockRouter, TokenRouter } from './routes/index.router.js';
+import { ViewRouter, ProductRouter, UserRouter, CartRouter, TokenRouter } from './routes/index.router.js';
 import { ProductService, CartService, MessageService } from './repositories/index.js';
+
 import { initializePassport } from './config/passport.config.js';
 import ErrorHandler from './middlewares/errorhandler.js';
 import { addLogger, logger } from './utils/logger.js';
-
+import { __dirname } from './utils.js';
+import { swaggerOptions } from './config/swagger.config.js';
 import swaggerJSDoc from 'swagger-jsdoc';
 import SwaggerUiExpress from 'swagger-ui-express';
   
@@ -19,18 +20,8 @@ export const app = express();
 initializePassport();
 app.use(passport.initialize());
 
-const swaggerOptions = {
-    definition: {
-        openapi: "3.0.1",
-        info: {
-            title: 'Ecommerce API Documentation',
-            description: ''
-        }
-    },
-    apis: [`${__dirname}/docs/**/*.yaml`]
-}
-const specs = swaggerJSDoc(swaggerOptions)
-app.use('/apidocs', SwaggerUiExpress.serve, SwaggerUiExpress.setup(specs))
+const specs = swaggerJSDoc(swaggerOptions);
+app.use('/apidocs', SwaggerUiExpress.serve, SwaggerUiExpress.setup(specs));
 
 app.engine("handlebars", handlebars.engine(
     {
@@ -67,7 +58,6 @@ app.set('view engine', 'handlebars');
 
 app.use(cookieParser());
 app.use(bodyParser.json());
-
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(__dirname + '/public'));
@@ -78,13 +68,11 @@ const viewRouter = new ViewRouter();
 const productRouter = new ProductRouter();
 const userRouter = new UserRouter();
 const cartRouter = new CartRouter();
-const mockRouter = new MockRouter();
 const tokenRouter = new TokenRouter();
 
 app.use('/view/', viewRouter.getRouter());
 app.use('/api/product/', productRouter.getRouter());
 app.use('/api/cart/', cartRouter.getRouter());
-app.use('/api/mock/', mockRouter.getRouter());
 app.use('/api/user/', userRouter.getRouter());
 app.use('/api/token/', tokenRouter.getRouter());
 
@@ -92,17 +80,7 @@ app.get('/', (req, res) => {
     res.redirect('/view/products');
 });
 
-app.get('/loggerTest', (req, res) => {
-    req.logger.debug('Debug message');
-    req.logger.http('Http message');
-    req.logger.info('Info message');
-    req.logger.warning('Warn message');
-    req.logger.error('Error message');
-    req.logger.fatal('Fatal message');
-    res.send('Logger test');
-});
-
-const httpServer = app.listen(process.env.PORT, () => logger.debug(`Server running on ${process.env.BASE_URL}`));
+const httpServer = app.listen(config.port, () => logger.debug(`Server running on ${config.baseUrl}`));
 const socketServer = new Server(httpServer);
 
 // <--- Socket Connection --->

@@ -54,7 +54,7 @@ export const passportCall = (strategy, roles = []) => {
             }
 
             if (roles.length && !roles.includes(user.role)) {
-                return res.sendNoAuthorizedError();
+                return res.sendForbidden();
             }
 
             req.user = user;
