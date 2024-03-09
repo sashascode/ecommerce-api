@@ -1,3 +1,4 @@
+import messages from "../../resources/messages.js"
 import EErrors from "./enums.js"
 import { generateUserErrorInfo, generateProductErrorInfo } from "./info.js"
 
@@ -37,7 +38,7 @@ export default class CustomError {
             name: 'Login error',
             cause: 'Invalid email or password',
             message: 'Error trying to login',
-            code: EErrors.LOGIN_ERROR,
+            code: EErrors.INVALID_CREDENTIALS,
             statusCode: 400
         })
     }
@@ -68,6 +69,16 @@ export default class CustomError {
             cause: 'Passwords dont match',
             message: 'Error trying to register user',
             code: EErrors.PASSWORDS_DONT_MATCH,
+            statusCode: 400
+        })
+    }
+
+    static documentNotFound(message) {
+        CustomError.createError({
+            name: 'Not found',
+            cause: 'Not found',
+            message: message,
+            code: EErrors.NOT_FOUND,
             statusCode: 400
         })
     }
