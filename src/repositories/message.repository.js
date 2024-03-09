@@ -1,3 +1,5 @@
+import messages from "../resources/messages.js";
+
 export default class MessageRepository {
     constructor(dao) {
         this.dao = dao;
@@ -19,7 +21,7 @@ export default class MessageRepository {
             return res._id;
         }
         catch(error) {
-            throw new Error('Error while saving message: ' + error.message);
+            throw new Error(messages.error.all.CREATE_ERROR + error.message);
         }   
     }
 
@@ -28,7 +30,7 @@ export default class MessageRepository {
             return await this.dao.getMessages();
         }
         catch(error) {
-            throw new Error('Error while getting messages: ' + error.message);
+            throw new Error(messages.error.all.GET_ERROR + error.message);
         };
     };
 }

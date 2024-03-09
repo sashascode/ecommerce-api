@@ -8,7 +8,7 @@ import messages from "../resources/messages.js";
 
 const mailModule = new Mail();
 
-export const sendPasswordLink = async (req, res) => {
+export const sendPasswordLink = async (req, res, next) => {
     try {
         if(!req.body.email) return res.sendBadRequest(messages.error.all.EMAIL_REQUIRED);
 
@@ -31,12 +31,11 @@ export const sendPasswordLink = async (req, res) => {
         }
     }
     catch (error) {
-        logger.error(err);
-        throw error;
+        next(error);
     }
 }
 
-export const resetPassword = async (req, res) => {
+export const resetPassword = async (req, res, next) => {
     try {
         const { userId, token } = req.params;
         const { newPassword } = req.body;
@@ -66,8 +65,7 @@ export const resetPassword = async (req, res) => {
 
         return res.sendBadRequest(messages.error.token.INVALID_TOKEN);
     }
-    catch (err) {
-        logger.error("[resetPassword]: " + err);
-        throw err;
+    catch (error) {
+        next(error);
     }
 }
