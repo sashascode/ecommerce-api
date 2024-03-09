@@ -23,7 +23,6 @@ export const generateProductErrorInfo = (product) => {
         thumbnail: Must be a string (${product?.thumbnail})
         code: Must be a string (${product?.code})
         description: Must be a string (${product?.description})
-        owner: Must be a string (${product?.owner})
     `
 }
 

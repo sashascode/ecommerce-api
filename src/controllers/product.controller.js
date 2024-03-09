@@ -12,7 +12,7 @@ export const getProducts = async (req, res) => {
     return res.sendSuccess(products);
 };
 
-export const getProductById = async (req, res) => {
+export const getProductById = async (req, res, next) => {
     const pid = req.params.pid;
    
     if (!isValid24HexString(pid)) return res.sendBadRequest(messages.error.all.INVALID_ID);
@@ -22,11 +22,7 @@ export const getProductById = async (req, res) => {
         return res.sendSuccess(product);
     }
     catch(error) {
-        if (error instanceof ProductNotFoundError) {
-            res.sendNotFound(error.message);
-        } else {
-            res.sendServerError(error);
-        }
+        next(error);
     }
     
 };
@@ -55,12 +51,11 @@ export const addProduct = async (req, res, next) => {
         return res.sendSuccess(addProductRes);
     }
     catch(error) {
-        logger.debug(error)
         next(error);
     }
 };
 
-export const updateProduct = async (req, res) => {
+export const updateProduct = async (req, res, next) => {
     const pid = req.params.pid;
     const data = req.body;
 
@@ -69,11 +64,7 @@ export const updateProduct = async (req, res) => {
         return res.sendSuccess(updateProductRes);
     }
     catch(error) {
-        if (error instanceof ProductNotFoundError) {
-            res.sendNotFound(error.message);
-        } else {
-            res.sendServerError("Internal server error: " + error.message);
-        }
+        next(error);
     }
    
 };
@@ -97,6 +88,5 @@ export const deleteProduct = async (req, res, next) => {
     }
     catch(error) {
         next(error);
-        return;
     }
 };

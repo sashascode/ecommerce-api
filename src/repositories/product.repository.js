@@ -1,6 +1,7 @@
 import { logger } from "../utils/logger.js";
 import config from "../config/config.js";
 import messages from "../resources/messages.js";
+import CustomError from "../utils/errors/custom.errors.js";
 
 export class ProductNotFoundError extends Error {
     constructor(message) {
@@ -26,16 +27,16 @@ export default class ProductRepository {
         return product.length === 0;
     }
 
-    addProduct = async ({title, description, price, thumbnail, code, stock, status, category, owner }) => {
+    addProduct = async ({ title, description, price, thumbnail, code, stock, status, category, owner }) => {
         try {
             if(!title || !description || !price || !category || !code || !stock || !category || !thumbnail) {
-                throw new Error("You must fill all the required fields.");
+                CustomError.createProduct({ title, description, price, thumbnail, code, stock, status, category, owner });
             }
     
             const uniqueCode = await this.#isUniqueCode(code);
     
             if(!uniqueCode) {
-                throw new Error(messages.error.product.DUPLICATED_CODE);
+                CustomError.duplicatedProductCode();
             }
     
             const product = {
@@ -54,7 +55,6 @@ export default class ProductRepository {
             return res._id;
         }
         catch(error) {
-            logger.debug(error)
             throw new Error(messages.error.all.CREATE_ERROR + error.message);
         }   
     }
@@ -63,7 +63,7 @@ export default class ProductRepository {
         const product = await this.dao.getProductById(id);
 
         if (!product) {
-            throw new ProductNotFoundError(messages.error.all.NOT_FOUND);
+            CustomError.documentNotFound();
         }
         
         return product;
@@ -101,7 +101,7 @@ export default class ProductRepository {
             return response;
         }
         catch(error) {
-            throw new FileError(messages.error.all.GET_ERROR + error.message);
+            throw new Error(messages.error.all.GET_ERROR + error.message);
         };
     };
 
@@ -132,7 +132,6 @@ export default class ProductRepository {
             return res._id;
         }
         catch (err) {
-            logger.error(messages.error.all.UPDATE_ERROR + err.message);
             throw new Error(messages.error.all.UPDATE_ERROR + err.message);
         }
     }
@@ -143,7 +142,6 @@ export default class ProductRepository {
             return owner;
         }
         catch (err) {
-            logger.error(messages.error.product.GET_ERROR + err.message);
             throw new Error(messages.error.product.GET_ERROR + err.message);
         }
     }

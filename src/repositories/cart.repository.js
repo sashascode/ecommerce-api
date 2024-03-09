@@ -29,7 +29,7 @@ export default class CartRepository {
         const cart = await this.cartDao.getCartById(id);
 
         if (!cart) {
-            CustomError.documentNotFound(messages.error.all.NOT_FOUND);
+            CustomError.documentNotFound();
         }
 
         return cart;
@@ -75,7 +75,7 @@ export default class CartRepository {
         const updatedCart = await this.cartDao.updateCart(cid, products);
 
         if (!updatedCart) {
-            CustomError.documentNotFound(messages.error.all.NOT_FOUND);
+            CustomError.documentNotFound();
         }
 
         return updatedCart;

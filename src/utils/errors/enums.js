@@ -4,7 +4,8 @@ const EErrors = {
     DATABASE_ERROR: 3,
     PASSWORDS_DONT_MATCH: 4,
     INVALID_CREDENTIALS: 5,
-    NOT_FOUND: 6
+    NOT_FOUND: 6,
+    DUPLICATED_CODE: 7
 }
 
 export default EErrors

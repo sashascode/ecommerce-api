@@ -73,12 +73,22 @@ export default class CustomError {
         })
     }
 
-    static documentNotFound(message) {
+    static documentNotFound(message = messages.error.all.NOT_FOUND) {
         CustomError.createError({
             name: 'Not found',
             cause: 'Not found',
             message: message,
             code: EErrors.NOT_FOUND,
+            statusCode: 400
+        })
+    }
+
+    static duplicatedProductCode() {
+        CustomError.createError({
+            name: 'Code duplicated',
+            cause: 'The code must be unique',
+            message: messages.error.product.DUPLICATED_CODE,
+            code: EErrors.DUPLICATED_CODE,
             statusCode: 400
         })
     }
