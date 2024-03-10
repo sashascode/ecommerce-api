@@ -76,7 +76,9 @@
         }
 
         if (user && user.status == "success") {
-           await fetch(`/api/cart/${user.cart}/purchase`, {
+            user = user.payload;
+
+            await fetch(`/api/cart/${user.cart}/purchase`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

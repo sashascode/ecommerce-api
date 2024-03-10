@@ -34,8 +34,8 @@ const initializeChat = async () => {
         if(user && user.status == "success") sessionStorage["user"] = JSON.stringify(user);
     }
 
-    if(user && user.email) {
-        document.getElementById('user').value = user.email;
+    if(user && user.payload?.email) {
+        document.getElementById('user').value = user.payload.email;
     }
 
     document.getElementById("messageForm").addEventListener("submit", function(e) {

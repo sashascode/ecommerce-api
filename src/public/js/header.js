@@ -95,7 +95,7 @@ const getPremium = async () => {
         if(user && user.status == "success") sessionStorage["user"] = JSON.stringify(user);
     }
 
-    const response = await fetch('/api/user/premium/' + user.id, {
+    const response = await fetch('/api/user/premium/' + user.payload.id, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',

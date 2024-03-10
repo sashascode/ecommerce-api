@@ -10,5 +10,6 @@ export default {
     environment: process.env.NODE_ENV,
     mailUser: process.env.GOOGLE_ACC,
     mailPass: process.env.GOOGLE_PW,
-    baseUrl: process.env.BASE_URL
+    baseUrl: process.env.BASE_URL,
+    mode: process.env.MODE
 }

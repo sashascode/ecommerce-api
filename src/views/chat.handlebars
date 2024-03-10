@@ -2,7 +2,7 @@
     <div class="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
         <h2 class="text-2xl font-bold tracking-tight text-gray-900">Chat</h2>
 
-        <ul role="list" id="messagesContainer" class="divide-y divide-gray-100">
+        <ul role="list" id="messagesContainer" class="divide-y divide-gray-100 h-full max-h-80 overflow-y-auto">
             {{#if messages}}
                 {{#each messages}}
                     <li class="flex justify-between gap-x-6 py-5">

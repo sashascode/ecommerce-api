@@ -4,9 +4,12 @@ import passport from 'passport';
 import cookieParser from 'cookie-parser';
 import bodyParser from 'body-parser';
 import handlebars from 'express-handlebars';
-import { Server } from 'socket.io';
+import { Server as HttpServer } from 'http';
+import { Server as SocketServer } from 'socket.io';
 import { ViewRouter, ProductRouter, UserRouter, CartRouter, TokenRouter } from './routes/index.router.js';
 import { ProductService, CartService, MessageService } from './repositories/index.js';
+import { cpus } from 'os';
+import cluster from 'cluster';
 
 import { initializePassport } from './config/passport.config.js';
 import ErrorHandler from './middlewares/errorhandler.js';
@@ -15,6 +18,9 @@ import { __dirname } from './utils.js';
 import { swaggerOptions } from './config/swagger.config.js';
 import swaggerJSDoc from 'swagger-jsdoc';
 import SwaggerUiExpress from 'swagger-ui-express';
+
+const numCPUs = cpus().length;
+const isPrimary = cluster.isPrimary;
   
 export const app = express();
 initializePassport();
@@ -80,8 +86,8 @@ app.get('/', (req, res) => {
     res.redirect('/view/products');
 });
 
-const httpServer = app.listen(config.port, () => logger.debug(`Server running on ${config.baseUrl}`));
-const socketServer = new Server(httpServer);
+const httpServer = new HttpServer(app);
+const socketServer = new SocketServer(httpServer);
 
 // <--- Socket Connection --->
 
@@ -110,5 +116,21 @@ socketServer.on('connection', async socket => {
         socketServer.sockets.emit('messages', messages);
     });
 });
+
+if(config.mode === 'CLUSTER' && isPrimary) {
+
+    for (let i = 0; i < numCPUs; i++) {
+      cluster.fork();
+    };
+  
+    cluster.on('exit', (worker) => {
+      console.log(`Worker with PID ${worker.process.pid} exited`);
+    });
+
+} else {
+    httpServer.listen(config.port, () => logger.debug(`Server running on ${config.baseUrl}`));
+  
+    httpServer.on('error', (err) => logger.error(err));
+}
 
 app.use(ErrorHandler);
