@@ -30,14 +30,15 @@ const logout = async () => {
             'Content-Type': 'application/json',
         },
     });
+    
     const data = await response.json();
-    if (data.message) {
+   
+    if (data.status == "success") {
         window.location.href = '/view/login';
+        sessionStorage.removeItem('user');
+        document.getElementById('cartRoute').href = '#';
+        document.getElementById('loginBtn').classList.remove('hidden');
     }
-
-    sessionStorage.removeItem('user');
-    document.getElementById('cartRoute').href = '#';
-    document.getElementById('loginBtn').classList.remove('hidden');
 
     return false;
 }
