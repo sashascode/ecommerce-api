@@ -18,6 +18,7 @@ export const getCartById = async (req, res, next) => {
     const cid = req.params.cid;
 
     if(!isValid24HexString(cid)) return res.sendBadRequest(messages.error.all.INVALID_ID);
+    if(req.user && req.user.cart !== cid) return res.sendForbidden();
 
     try {
         const result = await CartService.getCartById(cid);
