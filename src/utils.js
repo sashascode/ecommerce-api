@@ -27,7 +27,13 @@ export const __dirname = path.dirname(__filename);
 
 export const generateToken = (user, expires) => {
     const token = jwt.sign(
-        { id: user._id, email: user.email, role: user.role, cart: user.cart, hash: user.password },
+        { 
+            id: user._id, 
+            email: user.email, 
+            role: user.role, 
+            cart: user.cart, 
+            hash: user.password 
+        },
         process.env.JWT_SECRET,
         { expiresIn: expires }
     );
