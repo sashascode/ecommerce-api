@@ -30,7 +30,7 @@ const logout = async () => {
             'Content-Type': 'application/json',
         },
     });
-    
+
     const data = await response.json();
    
     if (data.status == "success") {
@@ -49,7 +49,7 @@ const initializeHeader = async () => {
     if (!user || Object.keys(user).length === 0) {
         user = await getCurrentUser();
         
-        if(user && !user.message) sessionStorage["user"] = JSON.stringify(user);
+        if(user && user.status == 'success') sessionStorage["user"] = JSON.stringify(user);
     }
 
     if(user && user.status == 'success') {
@@ -92,7 +92,7 @@ const getPremium = async () => {
    
     if (!user) {
         user = await getCurrentUser();
-        if(user && !user.message) sessionStorage["user"] = JSON.stringify(user);
+        if(user && user.status == "success") sessionStorage["user"] = JSON.stringify(user);
     }
 
     const response = await fetch('/api/user/premium/' + user.id, {
@@ -104,7 +104,7 @@ const getPremium = async () => {
 
     if(response.ok) {
         const userDataRefresh = await getCurrentUser();
-        if(userDataRefresh && !userDataRefresh.message) sessionStorage["user"] = JSON.stringify(userDataRefresh);
+        if(userDataRefresh && userDataRefresh.status == "success") sessionStorage["user"] = JSON.stringify(userDataRefresh);
         window.location.replace("/view/products");
     }
 }

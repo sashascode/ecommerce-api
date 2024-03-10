@@ -72,10 +72,10 @@
    
         if (!user) {
             user = await getCurrentUser();
-            if(user && !user.message) sessionStorage["user"] = JSON.stringify(user);
+            if(user && user.status == "success") sessionStorage["user"] = JSON.stringify(user);
         }
 
-        if (user && !user.message) {
+        if (user && user.status == "success") {
            await fetch(`/api/cart/${user.cart}/purchase`, {
                 method: 'POST',
                 headers: {
@@ -87,8 +87,8 @@
             })
             .then(res => res.json())
             .then(data => {
-                if (data.message) {
-                    alert(data.message);
+                if (data.error) {
+                    alert(data.error);
                 } else {
                     alert('Order placed successfully');
                     window.location.href = "/view/products/";
