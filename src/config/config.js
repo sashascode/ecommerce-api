@@ -8,8 +8,8 @@ export default {
     mongoUrl: process.env.MONGO_URL,
     mongoDbName: process.env.MONGO_DB_NAME,
     environment: process.env.NODE_ENV,
-    mailUser: process.env.GOOGLE_ACC,
-    mailPass: process.env.GOOGLE_PW,
+    gmailUser: process.env.GOOGLE_ACC,
+    gmailPass: process.env.GOOGLE_PW,
     baseUrl: process.env.BASE_URL,
     mode: process.env.MODE
 }
