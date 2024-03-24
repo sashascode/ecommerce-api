@@ -63,4 +63,14 @@ export default class UserRepository {
             throw error;
         }
     }
+
+    getUsers = async () => {
+        try {
+            return this.userDao.getUsers();
+        }
+        catch (error) {
+            logger.error(error);
+            throw error;
+        }
+    }
 }

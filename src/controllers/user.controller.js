@@ -114,3 +114,9 @@ export const updateUserRole = async (req, res) => {
 
     res.sendSuccess(result);
 }
+
+export const getUsers = async (req, res) => {
+    const users = await UserService.getUsers();
+
+    res.sendSuccess(users);
+}
