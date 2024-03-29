@@ -123,16 +123,18 @@
 
         if (!user) {
             user = await getCurrentUser();
-            if (user && user.status == "success") sessionStorage['user'] = JSON.stringify(user);
+            if (user && user.status == "success" && user.payload) sessionStorage['user'] = JSON.stringify(user.payload);
         }
         
-        if(user && user.cart) {
-            document.getElementById('gotocartBtn').addEventListener('click', () => goToCart(user.cart));
+        if(user && user.payload && user.payload.cart) {
+            const cartId = user.payload.cart;
+
+            document.getElementById('gotocartBtn').addEventListener('click', () => goToCart(cartId));
 
             document.querySelectorAll('[data-pid]').forEach(element => {
                 element.addEventListener('click', () => {
                     const pid = element.dataset.pid;
-                    addToCart(pid, user.cart);
+                    addToCart(pid, cartId);
                 });
             });
         }
