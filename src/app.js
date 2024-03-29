@@ -53,7 +53,7 @@ app.engine("handlebars", handlebars.engine(
                     subtotal += product?.id?.price * product?.quantity;
                 });
 
-                return subtotal;
+                return subtotal.toFixed(2);
             },
             ifEquals: function(arg1, arg2, options) {
                 return (arg1 === arg2) ? options.fn(this) : options.inverse(this);

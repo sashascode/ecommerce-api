@@ -101,7 +101,7 @@ export default class CartRepository {
                 subtotal += product.id.price * product.quantity;
             });
 
-            return subtotal;
+            return subtotal.toFixed(2);
         } catch (error) {
             throw new Error(messages.error.cart.GET_SUBTOTAL_ERROR + error.message);
         }
