@@ -32,9 +32,6 @@ userSchema.set('toJSON', {
     }
 });
 
-userSchema.pre('findOneAndUpdate', function(next) {
-    this.update({}, { last_connection: new Date() });
-    next();
-});
+// TO-DO: Manejo de logica para last_connection
 
 export const UserModel = mongoose.model(userCollection, userSchema);

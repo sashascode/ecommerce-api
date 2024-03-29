@@ -54,6 +54,9 @@ app.engine("handlebars", handlebars.engine(
                 });
 
                 return subtotal;
+            },
+            ifEquals: function(arg1, arg2, options) {
+                return (arg1 === arg2) ? options.fn(this) : options.inverse(this);
             }
         }
     }
@@ -124,7 +127,7 @@ if(config.mode === 'CLUSTER' && isPrimary) {
     };
   
     cluster.on('exit', (worker) => {
-      console.log(`Worker with PID ${worker.process.pid} exited`);
+      logger.info(`Worker with PID ${worker.process.pid} exited`);
     });
 
 } else {

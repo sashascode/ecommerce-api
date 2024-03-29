@@ -6,7 +6,7 @@ export default class UserDAO {
     }
 
     async getUsers() {
-        return await this.userModel.find();
+        return await this.userModel.find().lean();
     }
 
     async getUserById(id) {
@@ -29,7 +29,11 @@ export default class UserDAO {
         return await this.userModel.findByIdAndUpdate(id, user);
     }
 
-    async deleteUser(email) {
-        return await this.userModel.findOneAndDelete({ email: email });
+    async deleteUser(id) {
+        return await this.userModel.findByIdAndDelete(id);
+    }
+
+    async deleteInactiveUsers() {
+        return await this.userModel.deleteMany({ last_connection: { $lt: new Date(Date.now() - 86400000) } });
     }
 }

@@ -73,4 +73,24 @@ export default class UserRepository {
             throw error;
         }
     }
+
+    deleteInactiveUsers = async () => {
+        try {
+            return this.userDao.deleteInactiveUsers();
+        }
+        catch (error) {
+            logger.error(error);
+            throw error;
+        }
+    }
+
+    deleteUser = async (userId) => {
+        try {
+            return this.userDao.deleteUser(userId);
+        }
+        catch (error) {
+            logger.error(error);
+            throw error;
+        }
+    }
 }

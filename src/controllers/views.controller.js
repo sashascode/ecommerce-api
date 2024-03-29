@@ -1,4 +1,4 @@
-import { CartService, MessageService, ProductService } from '../repositories/index.js';
+import { CartService, MessageService, ProductService, UserService } from '../repositories/index.js';
 
 export const getProducts = async (req, res) => {
     const { limit, page, sort, query } = req.query;
@@ -48,4 +48,10 @@ export const getMessages = async (req, res) => {
 export const getResetPasswordView = async (req, res) => {
     const { userId, token } = req.params;
     res.render("resetPassword", { userId, token });
+}
+
+export const getUsersView = async (req, res) => {
+    const users = await UserService.getUsers();
+
+    res.render("user", { users });
 }

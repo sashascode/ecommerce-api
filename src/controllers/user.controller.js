@@ -95,7 +95,7 @@ export const getCurrentUser = async (req, res) => {
     res.sendSuccess(user);
 }
 
-export const updateUserRole = async (req, res) => {
+export const switchToPremium = async (req, res) => {
     const { uid } = req.params;
 
     if (!uid) {
@@ -119,4 +119,32 @@ export const getUsers = async (req, res) => {
     const users = await UserService.getUsers();
 
     res.sendSuccess(users);
+}
+
+export const deleteInactiveUsers = async (req, res) => {
+    const result = await UserService.deleteInactiveUsers();
+
+    res.sendSuccess(result);
+}
+
+export const updateUserRole = async (req, res) => {
+    const { role, uid } = req.params;
+
+    if (!role || !uid) {
+        return res.sendBadRequest(messages.error.all.MISSING_FIELDS);
+    }
+
+    const result = await UserService.updateUser(uid, { role });
+    res.sendSuccess(result);
+}
+
+export const deleteUser = async (req, res) => {
+    const { uid } = req.params;
+
+    if (!uid) {
+        return res.sendBadRequest(messages.error.all.MISSING_FIELDS);
+    }
+
+    const result = await UserService.deleteUser(uid);
+    res.sendSuccess(result);
 }

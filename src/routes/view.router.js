@@ -1,5 +1,15 @@
 import Router from "./router.js";
-import { getHomeView, getLoginView, getProducts, getRealTimeProducts, getRegisterView, getCartById, getMessages, getResetPasswordView } from "../controllers/views.controller.js";
+import { 
+    getHomeView, 
+    getLoginView, 
+    getProducts, 
+    getRealTimeProducts, 
+    getRegisterView, 
+    getCartById, 
+    getMessages, 
+    getResetPasswordView,
+    getUsersView
+} from "../controllers/views.controller.js";
 
 export default class ViewRouter extends Router {
     init() {
@@ -10,6 +20,7 @@ export default class ViewRouter extends Router {
         this.get("/login", ['PUBLIC'], getLoginView);
         this.get("/register", ['PUBLIC'], getRegisterView);
         this.get("/chat", ['USER_ROLE', 'PREMIUM_ROLE'], getMessages);
-        this.get("/reset_password/:userId/:token", ['PUBLIC'], getResetPasswordView )
+        this.get("/reset_password/:userId/:token", ['PUBLIC'], getResetPasswordView);
+        this.get("/admin/users", ['ADMIN_ROLE'], getUsersView);
     }
 }
