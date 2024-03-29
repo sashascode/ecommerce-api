@@ -105,4 +105,64 @@ export default class Mail {
         await this.send(user, subject, html);
     }    
 
+    async sendOrderConfirmationMail(user, order) {
+        const html = 
+        `
+        <div style="max-width: 600px; margin: 0 auto; padding: 20px; font-family: Arial, sans-serif;">
+            <div style="text-align: center; margin-bottom: 20px;">
+                <img src="${config.baseUrl}/assets/ghiblistore-logo.png" alt="Ghibli Store Logo" style="width: 150px;">
+            </div>
+            <div style="background-color: #f9f9f9; padding: 20px; border-radius: 10px;">
+                <h1 style="color: #333;">Order Confirmation</h1>
+                <p>
+                    Hi ${user.first_name},
+                </p>
+                <p>
+                    We have received your order. Here are the details:
+                </p>
+                <p>
+                    Order ID: ${order._id}<br>
+                    Total Amount: $${order.total}<br>
+                    Payment Method: ${order.payment_method}
+                </p>
+                <p>
+                    Your order will be shipped to the following address:
+                    <ul style="list-style: none; padding: 0;">
+                        <li>${user.address}</li>
+                        <li>${user.city}, ${user.state}, ${user.zipcode}</li>
+                        <li>${user.country}</li>
+                    </ul>
+                </p>
+            </div>
+        </div>
+        `
+
+        const subject = '[Ghibli Store] Order confirmation';
+    
+        await this.send(user, subject, html);
+    }
+
+    async sendInactiveUserDeletedMail(user) {
+        const html = 
+        `
+        <div style="max-width: 600px; margin: 0 auto; padding: 20px; font-family: Arial, sans-serif;">
+            <div style="text-align: center; margin-bottom: 20px;">
+                <img src="${config.baseUrl}/assets/ghiblistore-logo.png" alt="Ghibli Store Logo" style="width: 150px;">
+            </div>
+            <div style="background-color: #f9f9f9; padding: 20px; border-radius: 10px;">
+                <h1 style="color: #333;">Account Deletion</h1>
+                <p>
+                    Hi ${user.first_name},
+                </p>
+                <p>
+                    We are sorry to inform you that your account has been deleted due to inactivity.
+                </p>
+            </div>
+        </div>
+        `;
+
+        const subject = '[Ghibli Store] Account deletion due to inactivity';
+    
+        await this.send(user, subject, html);
+    }
 }

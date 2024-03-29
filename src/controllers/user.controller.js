@@ -59,6 +59,7 @@ export const loginUser = async (req, res, next) => {
         });
 
         const user = new CurrentUserDTO(req.user._doc);
+        await UserService.updateUser(user.id, { last_connection: new Date() });
 
         return res.sendSuccess(user);
     }
@@ -77,6 +78,8 @@ export const loginGithub = async (req, res) => {
         secure: config.environment === 'prod',
         maxAge: 24 * 60 * 60 * 1000 // 1 day
     });
+
+    await UserService.updateUser(req.user._doc._id, { last_connection: new Date() });
 
     res.redirect("/view/products");
 }

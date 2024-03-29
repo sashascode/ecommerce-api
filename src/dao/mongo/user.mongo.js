@@ -34,6 +34,6 @@ export default class UserDAO {
     }
 
     async deleteInactiveUsers() {
-        return await this.userModel.deleteMany({ last_connection: { $lt: new Date(Date.now() - 86400000) } });
+        return await this.userModel.deleteMany({ last_connection: { $lt: new Date(Date.now() - 172800000) } }); // 172,800,000 = 2 days
     }
 }
