@@ -12,32 +12,9 @@ export const createPaymentIntent = async (req, res, next) => {
         }
 
         const paymentIntent = await PaymentService.createPaymentIntent(paymentInfo);
+
+        if(!paymentIntent) return res.sendServerError('Failed to create payment intent');
         await CartService.purchaseCart(req.user.cart, req.user.email, amount, paymentIntent.id);
-
-        return res.sendSuccess(paymentIntent);
-    } catch (error) {
-        next(error);
-    }
-}
-
-export const handleStripeWebhook = async (req, res, next) => {
-    try {
-        const sig = req.headers['stripe-signature'];
-        const event = req.body;
-
-        await PaymentService.handleStripeWebhook(event, sig);
-
-        return res.sendSuccess('Webhook received');
-    } catch (error) {
-        next(error);
-    }
-}
-
-export const stripePayment = async (req, res, next) => {
-    const { paymentIntentId } = req.body;
-
-    try {
-        const paymentIntent = await PaymentService.confirmPaymentIntent(paymentIntentId);
 
         return res.sendSuccess(paymentIntent);
     } catch (error) {
