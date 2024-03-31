@@ -80,6 +80,8 @@ const initializeHeader = async () => {
             document.querySelectorAll('.admin_role').forEach(element => {
                 element.classList.remove('admin_role');
             });
+
+            document.getElementById("adminUsersRoute").classList.add('admin_role');
         }
 
         document.getElementById('switchRoleBtn').innerHTML = resources.roleBtn[roleClass];

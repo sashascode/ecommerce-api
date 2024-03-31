@@ -1,5 +1,8 @@
 import { CartService, MessageService, ProductService, UserService, TicketService } from '../repositories/index.js';
+import Mail from "../modules/mail.module.js";
 import { logger } from '../utils/logger.js';
+
+const mailModule = new Mail();
 
 export const getProducts = async (req, res) => {
     const { limit, page, sort, query } = req.query;
@@ -63,7 +66,9 @@ export const getCheckoutView = async (req, res) => {
 
 export const getOrderConfirmationView = async (req, res) => {
     const {payment_intent} = req.query;
+
     const ticket = await TicketService.updateTicketStatus(payment_intent, 2);
+    mailModule.sendOrderConfirmationMail(req.user, ticket);
     logger.info(ticket);
 
     res.render("orderConfirmation", { ticket, orderId: payment_intent });
