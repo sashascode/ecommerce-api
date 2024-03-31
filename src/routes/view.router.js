@@ -8,7 +8,8 @@ import {
     getCartById, 
     getMessages, 
     getResetPasswordView,
-    getUsersView
+    getUsersView,
+    getCheckoutView
 } from "../controllers/views.controller.js";
 
 export default class ViewRouter extends Router {
@@ -22,5 +23,6 @@ export default class ViewRouter extends Router {
         this.get("/chat", ['USER_ROLE', 'PREMIUM_ROLE'], getMessages);
         this.get("/reset_password/:userId/:token", ['PUBLIC'], getResetPasswordView);
         this.get("/admin/users", ['ADMIN_ROLE'], getUsersView);
+        this.get("/checkout", ['USER_ROLE', 'PREMIUM_ROLE'], getCheckoutView);
     }
 }

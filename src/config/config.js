@@ -11,5 +11,9 @@ export default {
     gmailUser: process.env.GOOGLE_ACC,
     gmailPass: process.env.GOOGLE_PW,
     baseUrl: process.env.BASE_URL,
-    mode: process.env.MODE
+    mode: process.env.MODE,
+    stripe: {
+        secretKey: process.env.STRIPE_SECRET_KEY,
+        publicKey: process.env.STRIPE_PUBLIC_KEY
+    }
 }

@@ -51,7 +51,7 @@
                 </div>
                 <p class="mt-0.5 text-sm text-gray-500">Shipping and taxes calculated at checkout.</p>
                 <div class="mt-6">
-                    <a href="#" onclick="javascript:placeOrder();return false;" class="flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700">Checkout</a>
+                    <a href="#" onclick="javascript:createPaymentIntent();return false;" class="flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700">Checkout</a>
                 </div>
                 <div class="mt-6 flex justify-center text-center text-sm text-gray-500">
                     <p>
@@ -70,6 +70,7 @@
 <script src="/socket.io/socket.io.js"></script>
 <script>
     const socket = io();
+    let stripe = Stripe('pk_test_51Ozj9gP8IOvd9pgGg9mInILavBubPRTroLG0DmZnTz8FYB2TKmdjyRjhvubzDAtWIv4NTUK484oClKakQp6evpSd00ezoKPPHZ');
 
     const deleteFromCart = (pid) => {
         var url = window.location.href;
@@ -135,5 +136,30 @@
             alert('Please login to place an order');
         }
 
+    }
+
+    const createPaymentIntent = async () => {
+        let amount = document.getElementById('cart-subtotal').innerText.slice(1);
+
+        return fetch('/api/payment/payment-intent', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                amount: amount,
+                currency: 'usd'
+            })
+        })
+        .then(res => res.json())
+        .then(data => {
+            console.log("paymentIntent response: ", data);
+            sessionStorage.setItem('stripeClientSecret', data.payload.client_secret);
+            window.location.href = "/view/checkout";
+        })
+        .catch(err => {
+            console.log(err);
+            return null;
+        })
     }
 </script>

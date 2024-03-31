@@ -7,6 +7,7 @@ import CartRepository from './cart.repository.js'
 import MessageRepository from './message.repository.js'
 import TicketRepository from './ticket.repository.js'
 import TokenRepository from './token.repository.js'
+import PaymentRepository from './payment.repository.js'
 
 const userDao = new UserDAO();
 const productDao = new ProductDAO();
@@ -22,3 +23,4 @@ export const CartService = new CartRepository(cartDao, productDao, ticketDao);
 export const MessageService = new MessageRepository(messageDao);
 export const TicketService = new TicketRepository(ticketDao);
 export const TokenService = new TokenRepository(tokenDao);
+export const PaymentService = new PaymentRepository();

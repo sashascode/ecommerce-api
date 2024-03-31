@@ -115,23 +115,14 @@ export default class Mail {
             <div style="background-color: #f9f9f9; padding: 20px; border-radius: 10px;">
                 <h1 style="color: #333;">Order Confirmation</h1>
                 <p>
-                    Hi ${user.first_name},
+                    Hi,
                 </p>
                 <p>
                     We have received your order. Here are the details:
                 </p>
                 <p>
                     Order ID: ${order._id}<br>
-                    Total Amount: $${order.total}<br>
-                    Payment Method: ${order.payment_method}
-                </p>
-                <p>
-                    Your order will be shipped to the following address:
-                    <ul style="list-style: none; padding: 0;">
-                        <li>${user.address}</li>
-                        <li>${user.city}, ${user.state}, ${user.zipcode}</li>
-                        <li>${user.country}</li>
-                    </ul>
+                    Total Amount: $${order.amount}<br>
                 </p>
             </div>
         </div>

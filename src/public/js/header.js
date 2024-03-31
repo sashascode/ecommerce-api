@@ -85,6 +85,8 @@ const initializeHeader = async () => {
         document.getElementById('switchRoleBtn').innerHTML = resources.roleBtn[roleClass];
         
     }
+
+    document.getElementById('restorePwDialog').classList.add('hidden');
 }
 
 const getPremium = async () => {

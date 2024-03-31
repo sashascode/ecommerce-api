@@ -55,3 +55,7 @@ export const getUsersView = async (req, res) => {
 
     res.render("user", { users });
 }
+
+export const getCheckoutView = async (req, res) => {
+    res.render("checkout");
+}

@@ -2,6 +2,9 @@ import { CartService, ProductService } from "../repositories/index.js";
 import CustomError from "../utils/errors/custom.errors.js";
 import { isValid24HexString } from "../utils.js";
 import messages from "../resources/messages.js";
+import Mail from "../modules/mail.module.js";
+
+const mailModule = new Mail();
 
 export const createCart = async (req, res) => {
     try {
@@ -114,6 +117,9 @@ export const purchaseCart = async (req, res, next) => {
         }
 
         const result = await CartService.purchaseCart(cid, userEmail);
+
+        mailModule.sendOrderConfirmationMail(req.user, result.ticket);
+
         return res.sendSuccess(result);
     }
     catch(error) {

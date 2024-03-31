@@ -6,7 +6,7 @@ import bodyParser from 'body-parser';
 import handlebars from 'express-handlebars';
 import { Server as HttpServer } from 'http';
 import { Server as SocketServer } from 'socket.io';
-import { ViewRouter, ProductRouter, UserRouter, CartRouter, TokenRouter } from './routes/index.router.js';
+import { ViewRouter, ProductRouter, UserRouter, CartRouter, TokenRouter, PaymentRouter } from './routes/index.router.js';
 import { ProductService, CartService, MessageService } from './repositories/index.js';
 import { cpus } from 'os';
 import cluster from 'cluster';
@@ -78,12 +78,14 @@ const productRouter = new ProductRouter();
 const userRouter = new UserRouter();
 const cartRouter = new CartRouter();
 const tokenRouter = new TokenRouter();
+const paymentRouter = new PaymentRouter();
 
 app.use('/view/', viewRouter.getRouter());
 app.use('/api/product/', productRouter.getRouter());
 app.use('/api/cart/', cartRouter.getRouter());
 app.use('/api/user/', userRouter.getRouter());
 app.use('/api/token/', tokenRouter.getRouter());
+app.use('/api/payment/', paymentRouter.getRouter());
 
 app.get('/', (req, res) => {
     res.redirect('/view/products');
