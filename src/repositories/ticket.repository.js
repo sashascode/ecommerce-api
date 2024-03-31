@@ -65,4 +65,16 @@ export default class TicketRepository {
         }
     };
 
+    updateTicketStatus = async (id, status) => {
+        try {
+            const res = await this.dao.updateTicketStatus(id, status);
+            console.log("Ticket updated: ", res);
+            return res;
+        }
+        catch(error) {
+            console.log(error.message)
+            throw new Error(messages.error.all.UPDATE_ERROR + error.message);
+        }
+    }
+
 }

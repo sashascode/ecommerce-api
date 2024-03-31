@@ -1,4 +1,5 @@
 import { TicketModel } from "./models/ticket.model.js";
+import { ProductModel } from "./models/product.model.js";
 
 export default class TicketDAO {
     constructor() {
@@ -11,6 +12,10 @@ export default class TicketDAO {
 
     async getTicketById(id) {
         return await this.ticketModel.findById(id).lean();
+    }
+
+    async getTicketByPiId(pi_id) {
+        return await this.ticketModel.find({ pi_id }).lean();
     }
 
     async getTicketByCode(code) {
@@ -32,5 +37,15 @@ export default class TicketDAO {
 
     async deleteTicket(id) {
         return await this.ticketModel.findByIdAndDelete(id).lean();
+    }
+
+    async updateTicketStatus(pi_id, status) {
+        return await this.ticketModel.findOneAndUpdate({
+            pi_id
+        }, {
+            status: status
+        }, {
+            new: true
+        }).populate({ path: 'items.id', model: ProductModel}).lean();   
     }
 }

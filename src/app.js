@@ -50,13 +50,19 @@ app.engine("handlebars", handlebars.engine(
                 }
 
                 products.forEach(product => {
-                    subtotal += product?.id?.price * product?.quantity;
+                    if(product.id.stock >= product.quantity) {
+                        subtotal += product?.id?.price * product?.quantity;
+                    }
+                    
                 });
 
                 return subtotal.toFixed(2);
             },
             ifEquals: function(arg1, arg2, options) {
                 return (arg1 === arg2) ? options.fn(this) : options.inverse(this);
+            },
+            validateProductStock: function (stock, quantity, options) {
+                return stock < quantity ? options.fn(this) : options.inverse(this);
             }
         }
     }

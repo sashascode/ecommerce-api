@@ -1,4 +1,5 @@
-import { CartService, MessageService, ProductService, UserService } from '../repositories/index.js';
+import { CartService, MessageService, ProductService, UserService, TicketService } from '../repositories/index.js';
+import { logger } from '../utils/logger.js';
 
 export const getProducts = async (req, res) => {
     const { limit, page, sort, query } = req.query;
@@ -58,4 +59,12 @@ export const getUsersView = async (req, res) => {
 
 export const getCheckoutView = async (req, res) => {
     res.render("checkout");
+}
+
+export const getOrderConfirmationView = async (req, res) => {
+    const {payment_intent} = req.query;
+    const ticket = await TicketService.updateTicketStatus(payment_intent, 2);
+    logger.info(ticket);
+
+    res.render("orderConfirmation", { ticket, orderId: payment_intent });
 }

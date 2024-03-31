@@ -107,10 +107,9 @@ export default class CartRepository {
         }
     }
 
-    purchaseCart = async (cid, userEmail) => {
+    purchaseCart = async (cid, userEmail, amount, paymentIntentId) => {
         let productsOutOfStock = [];
         let productsPurchased = [];
-        let amount = 0;
 
         try {
             const cart = await this.getCartById(cid);
@@ -125,7 +124,6 @@ export default class CartRepository {
                     logger.debug(`Product ${pid} has sufficient stock`);
                     await this.productDao.updateProductStock(pid, -quantity);
                     productsPurchased.push({ id: pid, quantity: quantity });
-                    amount += product.id.price * product.quantity;
                 } else {
                     productsOutOfStock.push({ id: pid, quantity: quantity });
                 }
@@ -134,13 +132,15 @@ export default class CartRepository {
         } catch (error) {
             throw new Error(messages.error.cart.PURCHASE_ERROR + error.message);
         } finally {
-            logger.debug("productsPurchased:", productsPurchased)
+            // logger.debug("productsPurchased:", productsPurchased)
 
             const purchase = {
                 items: productsPurchased,
-                amount: amount,
+                amount,
                 purchase_datetime: new Date(),
-                purchaser: userEmail
+                purchaser: userEmail,
+                pi_id: paymentIntentId,
+                status: 1 // 0: cancelled, 1: pending, 2: completed
             };
 
             const ticket = await this.ticketDao.createTicket(purchase);

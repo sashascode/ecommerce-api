@@ -32,6 +32,4 @@ userSchema.set('toJSON', {
     }
 });
 
-// TO-DO: Manejo de logica para last_connection
-
 export const UserModel = mongoose.model(userCollection, userSchema);

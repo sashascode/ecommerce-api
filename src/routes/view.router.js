@@ -9,7 +9,8 @@ import {
     getMessages, 
     getResetPasswordView,
     getUsersView,
-    getCheckoutView
+    getCheckoutView,
+    getOrderConfirmationView
 } from "../controllers/views.controller.js";
 
 export default class ViewRouter extends Router {
@@ -24,5 +25,6 @@ export default class ViewRouter extends Router {
         this.get("/reset_password/:userId/:token", ['PUBLIC'], getResetPasswordView);
         this.get("/admin/users", ['ADMIN_ROLE'], getUsersView);
         this.get("/checkout", ['USER_ROLE', 'PREMIUM_ROLE'], getCheckoutView);
+        this.get("/order-confirmation", ['USER_ROLE', 'PREMIUM_ROLE'], getOrderConfirmationView);
     }
 }

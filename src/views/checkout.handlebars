@@ -53,7 +53,7 @@
     const {error} = await stripe.confirmPayment({
         elements,
         confirmParams: {
-            return_url: 'http://localhost:8080/view/products', // TO-DO: View de order confirmation y borrar carrito y clientSecret de sessionStorage
+            return_url: 'http://localhost:8080/view/order-confirmation', // TO-DO: Update this URL
         },
     });
 
