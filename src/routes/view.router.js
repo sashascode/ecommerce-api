@@ -11,7 +11,7 @@ import {
     getUsersView,
     getCheckoutView,
     getOrderConfirmationView
-} from "../controllers/views.controller.js";
+} from "../controllers/view.controller.js";
 
 export default class ViewRouter extends Router {
     init() {
