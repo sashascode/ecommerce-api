@@ -109,7 +109,7 @@ const getPremium = async () => {
     if(response.ok) {
         const userDataRefresh = await getCurrentUser();
         if(userDataRefresh && userDataRefresh.status == "success") sessionStorage["user"] = JSON.stringify(userDataRefresh.payload);
-        window.location.replace("/view/products");
+        alert("Role updated, please login again to see the changes in your account and access the new features. 🚀");
     }
 }
 

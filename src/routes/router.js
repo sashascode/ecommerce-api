@@ -73,7 +73,7 @@ export default class AppRouter {
     res.sendForbidden = (error = 'Forbidden') => res.status(403).json({ status: 'error', error }),
     res.sendBadRequest = (error = 'Bad request') => res.status(400).json({ status: 'error', error }),
 
-    next()
+    next();
   }
 
   handlePolicies = policies => (req, res, next) => {

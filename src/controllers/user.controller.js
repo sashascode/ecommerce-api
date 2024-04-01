@@ -114,6 +114,7 @@ export const switchToPremium = async (req, res) => {
     const newRole = role && role.role === 'PREMIUM_ROLE' ? 'USER_ROLE' : 'PREMIUM_ROLE';
 
     const result = await UserService.updateUser(uid, { role: newRole });
+    req.user.role = newRole;
 
     res.sendSuccess(result);
 }
@@ -138,6 +139,8 @@ export const updateUserRole = async (req, res) => {
     }
 
     const result = await UserService.updateUser(uid, { role });
+    req.user.role = role;
+
     res.sendSuccess(result);
 }
 
