@@ -113,13 +113,12 @@
         let user = sessionStorage.getItem('user') ? JSON.parse(sessionStorage.getItem('user')) : null;
    
         if (!user) {
-            user = await getCurrentUser();
-            if(user && user.status == "success") sessionStorage["user"] = JSON.stringify(user);
+            let userResponse = await getCurrentUser();
+            user = userResponse.payload;
+            if(userResponse && userResponse.status == "success") sessionStorage["user"] = JSON.stringify(userResponse.payload);
         }
 
-        if (user && user.status == "success") {
-            user = user.payload;
-
+        if (user && user.cart && user.email) {
             await fetch(`/api/cart/${user.cart}/purchase`, {
                 method: 'POST',
                 headers: {

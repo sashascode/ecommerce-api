@@ -47,14 +47,13 @@ const initializeHeader = async () => {
     let user = sessionStorage.getItem('user') ? JSON.parse(sessionStorage.getItem('user')) : null;
     
     if (!user || Object.keys(user).length === 0) {
-        user = await getCurrentUser();
+        let userResponse = await getCurrentUser();
+        user = userResponse.payload;
         
-        if(user && user.status == 'success') sessionStorage["user"] = JSON.stringify(user);
+        if(userResponse && userResponse.status == 'success') sessionStorage["user"] = JSON.stringify(userResponse.payload);
     }
 
-    if(user && user.status == 'success') {
-        user = user.payload;
-
+    if(user && user.cart && user.role) {
         const hiddenElements = document.querySelectorAll('.hidden');
         const roleClass = user?.role?.toLowerCase();
 
@@ -95,11 +94,12 @@ const getPremium = async () => {
     let user = sessionStorage.getItem('user') ? JSON.parse(sessionStorage.getItem('user')) : null;
    
     if (!user) {
-        user = await getCurrentUser();
-        if(user && user.status == "success") sessionStorage["user"] = JSON.stringify(user);
+        let userResponse = await getCurrentUser();
+        user = userResponse.payload;
+        if(userResponse && userResponse.status == "success") sessionStorage["user"] = JSON.stringify(userResponse.payload);
     }
 
-    const response = await fetch('/api/user/premium/' + user.payload.id, {
+    const response = await fetch('/api/user/premium/' + user.id, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
@@ -108,7 +108,7 @@ const getPremium = async () => {
 
     if(response.ok) {
         const userDataRefresh = await getCurrentUser();
-        if(userDataRefresh && userDataRefresh.status == "success") sessionStorage["user"] = JSON.stringify(userDataRefresh);
+        if(userDataRefresh && userDataRefresh.status == "success") sessionStorage["user"] = JSON.stringify(userDataRefresh.payload);
         window.location.replace("/view/products");
     }
 }

@@ -122,12 +122,13 @@
         let user = sessionStorage.getItem('user') ? JSON.parse(sessionStorage.getItem('user')) : null;
 
         if (!user) {
-            user = await getCurrentUser();
-            if (user && user.status == "success" && user.payload) sessionStorage['user'] = JSON.stringify(user.payload);
+            let userResponse = await getCurrentUser();
+            user = userResponse.payload;
+            if (userResponse && userResponse.status == "success" && userResponse.payload) sessionStorage['user'] = JSON.stringify(userResponse.payload);
         }
         
-        if(user && user.payload && user.payload.cart) {
-            const cartId = user.payload.cart;
+        if(user && user.cart) {
+            const cartId = user.cart;
 
             document.getElementById('gotocartBtn').addEventListener('click', () => goToCart(cartId));
 

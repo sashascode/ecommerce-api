@@ -30,12 +30,13 @@ const initializeChat = async () => {
     let user = sessionStorage.getItem('user') ? JSON.parse(sessionStorage.getItem('user')) : null;
 
     if(!user) {
-        user = await getCurrentUser();
-        if(user && user.status == "success") sessionStorage["user"] = JSON.stringify(user);
+        let userResponse = await getCurrentUser();
+        user = userResponse.payload;
+        if(userResponse && userResponse.status == "success") sessionStorage["user"] = JSON.stringify(userResponse.payload);
     }
 
-    if(user && user.payload?.email) {
-        document.getElementById('user').value = user.payload.email;
+    if(user && user.email) {
+        document.getElementById('user').value = user.email;
     }
 
     document.getElementById("messageForm").addEventListener("submit", function(e) {
