@@ -37,9 +37,6 @@ To run the application properly, you need to set the following environment varia
 - PERSISTENCE: The persistence mechanism. Default is `MONGO`.
 - GOOGLE_ACC: Google account email address.
 - GOOGLE_PW: Google account password.
-- TWILIO_ACCOUNT_SID: Twilio account SID.
-- TWILIO_AUTH_TOKEN: Twilio authentication token.
-- TWILIO_PHONE_NUMBER: Twilio phone number.
 - MODE: Application mode. Could be `SINGLE` or `CLUSTER`. Default is `SINGLE`.
 - STRIPE_PUBLIC_KEY: Stripe public key.
 - STRIPE_SECRET_KEY: Stripe secret key.
