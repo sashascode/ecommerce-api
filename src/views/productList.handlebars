@@ -115,7 +115,8 @@
     }
 
     const goToPage = (url) => {
-        window.location.href = url;
+        let urlChanged = url.replace("api", "view");
+        window.location.href = urlChanged;
     }
 
     const initialize = async () => {
