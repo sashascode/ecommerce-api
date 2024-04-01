@@ -3,8 +3,7 @@
 ## Description
 This is an API for an ecommerce application. The API offers a variety of endpoints to handle key functionalities such as cart, tickets, payments, users, and products. It is built using the following design patterns: DAO, DTO, Repository, and Factory.
 
-## Link to deploy with Render
-https://ecommerce-api-e6i7.onrender.com
+Link to deploy with Render: https://ecommerce-api-e6i7.onrender.com
 
 ## Technologies used
 - Node.js: JavaScript runtime platform.
