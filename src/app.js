@@ -12,7 +12,7 @@ import { cpus } from 'os';
 import cluster from 'cluster';
 
 import { initializePassport } from './config/passport.config.js';
-import ErrorHandler from './middlewares/errorhandler.js';
+import ErrorHandler from './middlewares/errorhandler.middleware.js';
 import { addLogger, logger } from './utils/logger.js';
 import { __dirname } from './utils.js';
 import { swaggerOptions } from './config/swagger.config.js';

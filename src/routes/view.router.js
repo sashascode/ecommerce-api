@@ -12,6 +12,7 @@ import {
     getCheckoutView,
     getOrderConfirmationView
 } from "../controllers/view.controller.js";
+import { isAuthenticated } from "../middlewares/auth.middleware.js";
 
 export default class ViewRouter extends Router {
     init() {
@@ -19,8 +20,8 @@ export default class ViewRouter extends Router {
         this.get("/products", ['PUBLIC'], getProducts);
         this.get("/realtimeproducts", ['ADMIN_ROLE', 'PREMIUM_ROLE'], getRealTimeProducts);
         this.get("/cart/:cid", ['USER_ROLE', 'PREMIUM_ROLE'], getCartById);
-        this.get("/login", ['PUBLIC'], getLoginView);
-        this.get("/register", ['PUBLIC'], getRegisterView);
+        this.get("/login", ['PUBLIC'], isAuthenticated, getLoginView);
+        this.get("/register", ['PUBLIC'], isAuthenticated, getRegisterView);
         this.get("/chat", ['USER_ROLE', 'PREMIUM_ROLE'], getMessages);
         this.get("/reset_password/:userId/:token", ['PUBLIC'], getResetPasswordView);
         this.get("/admin/users", ['ADMIN_ROLE'], getUsersView);
