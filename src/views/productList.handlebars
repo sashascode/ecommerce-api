@@ -115,7 +115,7 @@
     }
 
     const goToPage = (url) => {
-        let urlChanged = url.replace("api", "view");
+        let urlChanged = url.replace("/api/", "/view/");
         urlChanged = urlChanged.replace("product", "products");
         window.location.href = urlChanged;
     }
