@@ -125,8 +125,11 @@
 
         if (!user) {
             let userResponse = await getCurrentUser();
-            user = userResponse.payload;
-            if (userResponse && userResponse.status == "success" && userResponse.payload) sessionStorage['user'] = JSON.stringify(userResponse.payload);
+            
+            if (userResponse && userResponse.status == "success" && userResponse.payload) {
+                user = userResponse.payload;
+                sessionStorage['user'] = JSON.stringify(userResponse.payload);
+            } 
         }
         
         if(user && user.cart) {

@@ -40,6 +40,11 @@ const logout = async () => {
         document.getElementById('loginBtn').classList.remove('hidden');
     }
 
+    if (data.status == 401) {
+        sessionStorage.removeItem('user');
+        window.location.href = '/view/login';
+    }
+
     return false;
 }
 
@@ -48,9 +53,11 @@ const initializeHeader = async () => {
     
     if (!user || Object.keys(user).length === 0) {
         let userResponse = await getCurrentUser();
-        user = userResponse.payload;
         
-        if(userResponse && userResponse.status == 'success') sessionStorage["user"] = JSON.stringify(userResponse.payload);
+        if(userResponse && userResponse.status == 'success') {
+            user = userResponse.payload;
+            sessionStorage["user"] = JSON.stringify(userResponse.payload);
+        } 
     }
 
     if(user && user.cart && user.role) {
@@ -87,7 +94,8 @@ const initializeHeader = async () => {
         
     }
 
-    document.getElementById('restorePwDialog').classList.add('hidden');
+    let restorePwDialog = document.getElementById('restorePwDialog');
+    if(restorePwDialog) restorePwDialog.classList.add('hidden');
 }
 
 const getPremium = async () => {
@@ -95,8 +103,11 @@ const getPremium = async () => {
    
     if (!user) {
         let userResponse = await getCurrentUser();
-        user = userResponse.payload;
-        if(userResponse && userResponse.status == "success") sessionStorage["user"] = JSON.stringify(userResponse.payload);
+        
+        if(userResponse && userResponse.status == "success") {
+            user = userResponse.payload;
+            sessionStorage["user"] = JSON.stringify(userResponse.payload);
+        } 
     }
 
     const response = await fetch('/api/user/premium/' + user.id, {

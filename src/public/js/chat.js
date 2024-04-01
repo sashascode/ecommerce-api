@@ -31,8 +31,11 @@ const initializeChat = async () => {
 
     if(!user) {
         let userResponse = await getCurrentUser();
-        user = userResponse.payload;
-        if(userResponse && userResponse.status == "success") sessionStorage["user"] = JSON.stringify(userResponse.payload);
+        
+        if(userResponse && userResponse.status == "success") {
+            user = userResponse.payload;
+            sessionStorage["user"] = JSON.stringify(userResponse.payload);
+        } 
     }
 
     if(user && user.email) {

@@ -56,7 +56,7 @@ export const passportCall = (strategy, roles = []) => {
         passport.authenticate(strategy, { session: false }, function(err, user, info) {
             if (err) return next(err); 
             if (!user) { 
-                return res.status(401).json({ error: info?.messages ? info?.messages : info?.toString() }); 
+                return res.status(401).json({ status: 401, error: info?.messages ? info?.messages : info?.toString() }); 
             }
 
             if (roles.length && !roles.includes(user.role)) {
