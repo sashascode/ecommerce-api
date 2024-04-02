@@ -16,7 +16,6 @@ const onSubmit = async () => {
             error.style.display = 'block';
             error.innerHTML = 'Invalid credentials';
 
-            console.log(response)
             return false;
         }
 
@@ -44,7 +43,6 @@ function hideDialog() {
   
 async function sendResetPwEmail() {
     const email = document.getElementById('restoreEmail').value;
-    console.log(email)
 
     const response = await fetch('/api/token/', {
         method: 'POST',

@@ -14,7 +14,6 @@ const getCurrentUser = async () => {
     });
 
     const data = await response.json();
-    console.log(data)
    
     if(!data || data.error) {
         return;

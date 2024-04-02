@@ -1,5 +1,4 @@
 const validateRole = (userRole, roleToCompare) => {
-    console.log(userRole, roleToCompare)
     return userRole === roleToCompare;
 }
 

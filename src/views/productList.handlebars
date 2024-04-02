@@ -91,7 +91,6 @@
 <script src="/socket.io/socket.io.js"></script>
 <script>
     const addToCart = (pid, cid) => {
-        console.log("Add to cart: " + pid + " " + cid);
         const data = {
             pid: pid,
             cid: cid
@@ -110,7 +109,6 @@
     }
     
     const goToCart = (cid) => {
-        console.log("Go to cart: " + cid);
         window.location.href = "/view/cart/" + cid;
     }
 
