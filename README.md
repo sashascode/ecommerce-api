@@ -17,7 +17,7 @@ Link to deploy with Render: https://ecommerce-api-e6i7.onrender.com
 - Socket.io: For implementing real-time chat using websockets.
 
 ## Installation
-1. Clone the repository: `git clone https://github.com/your-username/ecommerce-api.git`
+1. Clone the repository: `git clone https://github.com/sashascode/ecommerce-api.git`
 2. Install dependencies: `npm install`
 
 ## Usage
